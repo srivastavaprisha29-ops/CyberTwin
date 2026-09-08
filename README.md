@@ -1,454 +1,632 @@
-# CyberTwin
+<div align="center">
 
-# CyberTwin
+<!-- CYBERTWIN HERO -->
 
-> **Your digital identity has a life of its own. CyberTwin helps you see it, understand it, and protect it.**
+<img src="https://capsule-render.vercel.app/api?type=waving&height=260&color=0:05001A,25:001BFF,55:8A00FF,78:FF00C8,100:05001A&text=CYBERTWIN&fontColor=FFFFFF&fontSize=72&fontAlignY=40&animation=fadeIn&desc=YOUR%20DIGITAL%20IDENTITY%20%2F%2F%20MAPPED.%20UNDERSTOOD.%20PROTECTED.&descAlignY=62&descSize=17" width="100%" />
 
-CyberTwin is a cybersecurity platform designed to create a **security-focused digital twin of an individual's online identity**.
+<br>
 
-Every account, username, email address, public profile, exposed credential, device, and piece of publicly accessible information contributes to a person's digital attack surface. CyberTwin aims to map these fragments into a unified model that helps users understand **what the internet knows about them, how those pieces connect, and where security risks may exist.**
+<img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=21&duration=2300&pause=700&color=00E5FF&center=true&vCenter=true&width=900&lines=INITIALIZING+DIGITAL+TWIN...;SCANNING+DIGITAL+IDENTITY...;MAPPING+IDENTITY+NODES...;ANALYZING+EXPOSURE+SIGNALS...;CYBERTWIN+SYSTEM+ONLINE." alt="CyberTwin Terminal Animation"/>
 
-Instead of protecting only a device or an account, CyberTwin focuses on protecting the **digital representation of the person behind them**.
+<br><br>
 
----
+![Status](https://img.shields.io/badge/SYSTEM-ACTIVE-00E5FF?style=for-the-badge\&labelColor=050014)
+![Build](https://img.shields.io/badge/BUILD-ALPHA-B500FF?style=for-the-badge\&labelColor=050014)
+![Security](https://img.shields.io/badge/SECURITY-FOCUSED-FF00BB?style=for-the-badge\&labelColor=050014)
+![Open Source](https://img.shields.io/badge/OPEN_SOURCE-YES-7C4DFF?style=for-the-badge\&labelColor=050014)
 
-## The Problem
+<br>
 
-Our digital identities are fragmented across the internet.
+### `HUMAN // DATA // IDENTITY // SECURITY`
 
-A single person may have:
+> **Your digital shadow already exists. CyberTwin lets you see it before someone else uses it.**
 
-* multiple email addresses
-* dozens of online accounts
-* reused usernames
-* public social profiles
-* exposed personal information
-* breached credentials
-* forgotten accounts
-* connected services
-* publicly visible metadata
-
-Individually, these pieces may appear harmless.
-
-Together, they can reveal a surprisingly detailed picture of someone and create opportunities for:
-
-* identity theft
-* phishing
-* impersonation
-* credential attacks
-* social engineering
-* account takeover
-* privacy invasion
-
-Most cybersecurity tools protect individual components.
-
-CyberTwin attempts to answer a different question:
-
-> **What does my complete digital identity look like from a security perspective?**
+</div>
 
 ---
 
-# The CyberTwin Concept
+<div align="center">
 
-CyberTwin builds a virtual security representation—a **Cyber Twin**—of a user's digital presence.
+## `// SYSTEM OVERVIEW`
+
+</div>
+
+CyberTwin is an experimental **personal cybersecurity and digital-identity intelligence platform** designed to construct a dynamic security model of a person's online presence.
+
+It connects fragmented pieces of digital identity — usernames, emails, accounts, domains, breach exposure, public profiles, metadata and relationships — into a unified **Cyber Twin**.
 
 ```text
-                    ┌─────────────────┐
-                    │      USER       │
-                    └────────┬────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │    CyberTwin    │
-                    └────────┬────────┘
-                             │
-           ┌─────────────────┼─────────────────┐
-           │                 │                 │
-           ▼                 ▼                 ▼
-      Accounts           Identities        Exposure
-      & Profiles         & Aliases          Signals
-           │                 │                 │
-           └─────────────────┼─────────────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │ Identity Graph  │
-                    └────────┬────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │ Risk Analysis   │
-                    └────────┬────────┘
-                             │
-                             ▼
-                    ┌─────────────────┐
-                    │ Security Twin   │
-                    └─────────────────┘
+                         ┌─────────────────────┐
+                         │        HUMAN        │
+                         │     REAL WORLD      │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                      ╔══════════════════════════╗
+                      ║        CYBERTWIN         ║
+                      ║    DIGITAL IDENTITY      ║
+                      ║       ENGINE             ║
+                      ╚════════════╤═════════════╝
+                                   │
+              ┌────────────────────┼────────────────────┐
+              │                    │                    │
+              ▼                    ▼                    ▼
+       ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+       │  IDENTITY   │      │  EXPOSURE   │      │    RISK     │
+       │   GRAPH     │      │INTELLIGENCE │      │   ENGINE    │
+       └──────┬──────┘      └──────┬──────┘      └──────┬──────┘
+              │                    │                    │
+              └────────────────────┼────────────────────┘
+                                   │
+                                   ▼
+                         ┌───────────────────┐
+                         │ ACTIONABLE        │
+                         │ SECURITY INSIGHT  │
+                         └───────────────────┘
 ```
 
-The resulting twin provides a continuously evolving view of the user's **digital attack surface**.
-
 ---
 
-# Core Features
+<div align="center">
 
-## 1. Digital Footprint Discovery
-
-Discover and organize publicly accessible information associated with a user's digital identity.
-
-Potential signals include:
-
-* usernames
-* email addresses
-* public profiles
-* websites
-* domains
-* account references
-* exposed metadata
-
-The objective is to transform scattered information into a structured representation.
-
----
-
-## 2. Identity Graph
-
-CyberTwin represents discovered entities as a graph.
+## `// LIVE CYBERTWIN STATE`
 
 ```text
-                    Person
+╔══════════════════════════════════════════════════════════════════╗
+║                       CYBERTWIN // NODE-01                       ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║    IDENTITY NODES     █████████████████░░░░      42              ║
+║    EXPOSURE SIGNALS   ███████░░░░░░░░░░░░░      17              ║
+║    RISK SCORE         ████████████░░░░░░░░░      63 / 100        ║
+║    MONITORING         █████████████████████      ACTIVE          ║
+║                                                                  ║
+║    CORE STATUS        ● ONLINE                                  ║
+║    GRAPH ENGINE       ● RUNNING                                 ║
+║    RISK ENGINE        ● RUNNING                                 ║
+║    THREAT FEEDS       ◉ CONNECTING                              ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+```
+
+</div>
+
+---
+
+<div align="center">
+
+# `01 // DIGITAL FOOTPRINT DISCOVERY`
+
+</div>
+
+CyberTwin discovers and structures information belonging to a user's digital presence.
+
+```text
+ EMAIL ───────────────┐
                       │
-          ┌───────────┼───────────┐
-          │           │           │
-        Email      Username     Domain
-          │           │           │
-          ▼           ▼           ▼
-       Account     Profile      Website
-          │           │
-          └───────┬───┘
-                  │
-                  ▼
-             Risk Signal
+ USERNAME ────────────┤
+                      │
+ SOCIAL PROFILE ──────┤
+                      │
+ DOMAIN ──────────────┼──────► [ IDENTITY RESOLUTION ]
+                      │
+ ACCOUNT ─────────────┤
+                      │
+ BREACH SIGNAL ───────┤
+                      │
+ METADATA ────────────┘
 ```
 
-This allows relationships between pieces of digital identity to become visible instead of remaining isolated.
+Potential inputs include:
+
+* Email addresses
+* Usernames
+* Domains
+* Public profiles
+* Connected services
+* Known exposure signals
+* Publicly accessible metadata
 
 ---
 
-## 3. Exposure Detection
+<div align="center">
 
-CyberTwin can identify potential exposure signals associated with the user's digital footprint.
+# `02 // IDENTITY GRAPH`
 
-Examples may include:
+</div>
 
-* leaked credentials
-* exposed email addresses
-* forgotten accounts
-* suspicious identity reuse
-* publicly accessible sensitive information
-* potentially compromised services
+CyberTwin does not treat identity data as isolated records.
 
----
-
-## 4. Digital Risk Score
-
-CyberTwin aims to calculate an interpretable security score representing the overall exposure of the user's digital identity.
+It constructs a **relationship graph** showing how digital entities connect.
 
 ```text
-Cyber Risk Score
+                              [ PERSON ]
+                                  │
+                ┌─────────────────┼─────────────────┐
+                │                 │                 │
+                ▼                 ▼                 ▼
 
-LOW  ─────────────────────────────── HIGH
- 0                                      100
-                    ▲
-                   63
+           [ EMAIL ]         [ USERNAME ]        [ DOMAIN ]
+                │                 │                 │
+          ┌─────┴─────┐      ┌────┴────┐        ┌──┴───┐
+          ▼           ▼      ▼         ▼        ▼      ▼
+      ACCOUNT      BREACH  PROFILE   ACCOUNT  WEBSITE  DATA
+          │           │       │         │        │      │
+          └───────────┴───────┼─────────┴────────┴──────┘
+                              │
+                              ▼
+                       [ RISK SIGNAL ]
 ```
 
-The score may consider factors such as:
+This gives CyberTwin context.
 
-* number of exposed identities
-* credential exposure
-* password/account reuse indicators
-* sensitive public information
-* account criticality
-* exposure severity
-* relationships between compromised entities
-
-The goal is not simply to display a number, but to explain **why the risk exists and what can be done about it.**
-
----
-
-## 5. Attack-Surface Simulation
-
-A future CyberTwin capability is to analyze the identity graph from an attacker's perspective.
-
-For example:
+Not just:
 
 ```text
-Public Username
-      ↓
-Public Profile
-      ↓
-Exposed Email
-      ↓
-Breached Service
-      ↓
-Possible Credential Reuse
-      ↓
-High-Value Account
+email@example.com
 ```
 
-CyberTwin could identify these potential attack paths before they are exploited.
-
----
-
-## 6. Security Recommendations
-
-Detected risks should produce actionable recommendations.
-
-Examples:
+but:
 
 ```text
-⚠ Email found in known breach
-→ Change credentials associated with the affected service.
-
-⚠ Username reused across multiple public platforms
-→ Consider separating public and private identities.
-
-⚠ Excessive personal information publicly visible
-→ Review privacy settings and remove unnecessary exposure.
+email@example.com
+      │
+      ├── used on Platform A
+      ├── connected to username X
+      ├── appears in breach Y
+      └── exposes profile Z
 ```
 
-The objective is to move from:
+---
 
-**Detection → Understanding → Action**
+<div align="center">
+
+# `03 // EXPOSURE INTELLIGENCE`
+
+<img src="https://readme-typing-svg.demolab.com?font=Share+Tech+Mono&size=18&duration=1800&pause=350&color=FF00C8&center=true&width=850&lines=SCANNING+PUBLIC+EXPOSURE...;CHECKING+IDENTITY+CORRELATIONS...;ANALYZING+BREACH+SIGNALS...;SEARCHING+FOR+HIGH-RISK+CONNECTIONS..." />
+
+</div>
+
+CyberTwin can analyze indicators such as:
+
+```text
+[✓] Username reuse
+[✓] Email exposure
+[✓] Public account discovery
+[✓] Identity correlation
+[✓] Potential credential exposure
+[✓] Sensitive metadata visibility
+[✓] Forgotten digital accounts
+[✓] High-risk account relationships
+```
 
 ---
 
-# Proposed Architecture
+<div align="center">
+
+# `04 // RISK ENGINE`
+
+</div>
+
+CyberTwin converts exposure into an interpretable security model.
 
 ```text
-┌──────────────────────────────────────────────┐
-│                  Frontend                    │
-│          Dashboard / Identity Graph          │
-└──────────────────────┬───────────────────────┘
+        CYBERTWIN RISK INDEX
+
+  0                                                  100
+  │                                                   │
+  ├──────────┬──────────┬──────────┬──────────┬────────┤
+  │   LOW    │ GUARDED  │ ELEVATED │   HIGH   │CRITICAL│
+  └──────────┴──────────┴──────────┴──────────┴────────┘
+
+                               ▲
+                              63
+```
+
+Potential scoring inputs:
+
+```text
+Credential Exposure          ███████████████
+Identity Reuse               ███████████
+Sensitive Public Data        ███████
+Account Criticality          █████████████
+Attack Path Connectivity     ██████████
+Exposure Severity            ████████████
+```
+
+The objective is not simply:
+
+```text
+RISK = 63
+```
+
+It should answer:
+
+```text
+WHY IS MY RISK 63?
+WHAT CREATED THIS RISK?
+WHICH IDENTITY IS RESPONSIBLE?
+WHAT SHOULD I FIX FIRST?
+```
+
+---
+
+<div align="center">
+
+# `05 // ATTACK PATH ANALYSIS`
+
+</div>
+
+A long-term CyberTwin capability is to model how seemingly harmless public information could combine into a potential attack path.
+
+```text
+┌──────────────────┐
+│ PUBLIC USERNAME  │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ SOCIAL PROFILE   │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ EXPOSED EMAIL    │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ BREACHED SERVICE │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ CREDENTIAL REUSE │
+└────────┬─────────┘
+         │
+         ▼
+╔══════════════════╗
+║ HIGH-VALUE NODE  ║
+╚══════════════════╝
+```
+
+CyberTwin is intended to help users identify these connections **defensively and before they are exploited**.
+
+---
+
+<div align="center">
+
+# `06 // SECURITY RECOMMENDATION ENGINE`
+
+</div>
+
+```text
+╔════════════════════════════════════════════════════════════╗
+║ ALERT // IDENTITY EXPOSURE                                ║
+╠════════════════════════════════════════════════════════════╣
+║ SIGNAL      : Email detected in known breach              ║
+║ SEVERITY    : HIGH                                        ║
+║ IMPACT      : Credential compromise may be possible       ║
+║ ACTION      : Rotate password + review related accounts   ║
+╚════════════════════════════════════════════════════════════╝
+```
+
+CyberTwin follows the pipeline:
+
+```text
+         DETECT
+            │
+            ▼
+        CORRELATE
+            │
+            ▼
+         ANALYZE
+            │
+            ▼
+          SCORE
+            │
+            ▼
+       RECOMMEND
+            │
+            ▼
+          ACT
+```
+
+---
+
+<div align="center">
+
+# `// SYSTEM ARCHITECTURE`
+
+</div>
+
+```text
+╔════════════════════════════════════════════════════════════════════════╗
+║                            CYBERTWIN                                  ║
+╚════════════════════════════════════════════════════════════════════════╝
+
+       USER
+        │
+        ▼
+┌───────────────────┐
+│   NEXT.JS / UI    │
+│                   │
+│ Dashboard         │
+│ Identity Graph    │
+│ Risk Console      │
+└─────────┬─────────┘
+          │
+          ▼
+┌──────────────────────────────────────────────────────────────┐
+│                     FASTAPI API LAYER                       │
+│                                                              │
+│ Auth │ Scan │ Identity │ Graph │ Risk │ Recommendations     │
+└──────────────────────────┬───────────────────────────────────┘
+                           │
+                           ▼
+╔══════════════════════════════════════════════════════════════╗
+║                   CYBERTWIN CORE ENGINE                     ║
+║                                                              ║
+║  ┌───────────────┐  ┌──────────────┐  ┌─────────────────┐  ║
+║  │ DISCOVERY     │  │ ENTITY       │  │ GRAPH BUILDER   │  ║
+║  │ ENGINE        │  │ RESOLUTION   │  │                 │  ║
+║  └───────────────┘  └──────────────┘  └─────────────────┘  ║
+║                                                              ║
+║  ┌───────────────┐  ┌──────────────┐  ┌─────────────────┐  ║
+║  │ EXPOSURE      │  │ RISK ENGINE  │  │ RECOMMENDATION  │  ║
+║  │ ENGINE        │  │              │  │ ENGINE          │  ║
+║  └───────────────┘  └──────────────┘  └─────────────────┘  ║
+╚══════════════════════╤═══════════════════════════════════════╝
                        │
-                       ▼
-┌──────────────────────────────────────────────┐
-│                   API Layer                  │
-│             Authentication / API             │
-└──────────────────────┬───────────────────────┘
-                       │
-                       ▼
-┌──────────────────────────────────────────────┐
-│               CyberTwin Engine               │
-│                                              │
-│  Identity Discovery                         │
-│  Entity Resolution                          │
-│  Exposure Analysis                          │
-│  Risk Scoring                               │
-│  Recommendation Engine                      │
-└───────────────┬──────────────────┬───────────┘
-                │                  │
-                ▼                  ▼
-        ┌──────────────┐    ┌──────────────┐
-        │ Graph Store  │    │ Relational   │
-        │              │    │ Database     │
-        └──────────────┘    └──────────────┘
-                │
-                ▼
-┌──────────────────────────────────────────────┐
-│          External Intelligence Layer         │
-│                                              │
-│ OSINT Sources                                │
-│ Breach Intelligence                          │
-│ Public APIs                                  │
-│ Security Data Sources                        │
-└──────────────────────────────────────────────┘
+            ┌──────────┴──────────┐
+            │                     │
+            ▼                     ▼
+    ┌───────────────┐      ┌───────────────┐
+    │  POSTGRESQL   │      │ GRAPH STORAGE │
+    │               │      │               │
+    │ Users         │      │ Nodes         │
+    │ Scans         │      │ Relationships │
+    │ Risk Events   │      │ Attack Paths  │
+    └───────────────┘      └───────────────┘
+            │
+            └──────────┬───────────────┐
+                       │               │
+                       ▼               ▼
+                ┌────────────┐  ┌──────────────┐
+                │ OSINT APIs │  │ SECURITY     │
+                │            │  │ INTELLIGENCE │
+                └────────────┘  └──────────────┘
 ```
 
-The architecture will evolve as the project moves from prototype to production.
+---
+
+<div align="center">
+
+# `// TECH STACK`
+
+<br>
+
+![Python](https://img.shields.io/badge/Python-050014?style=for-the-badge\&logo=python\&logoColor=00E5FF)
+![FastAPI](https://img.shields.io/badge/FastAPI-050014?style=for-the-badge\&logo=fastapi\&logoColor=FF00C8)
+![React](https://img.shields.io/badge/React-050014?style=for-the-badge\&logo=react\&logoColor=00E5FF)
+![Next.js](https://img.shields.io/badge/Next.js-050014?style=for-the-badge\&logo=nextdotjs\&logoColor=FFFFFF)
+![TypeScript](https://img.shields.io/badge/TypeScript-050014?style=for-the-badge\&logo=typescript\&logoColor=8A2BE2)
+
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-050014?style=for-the-badge\&logo=postgresql\&logoColor=00E5FF)
+![Docker](https://img.shields.io/badge/Docker-050014?style=for-the-badge\&logo=docker\&logoColor=FF00C8)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-050014?style=for-the-badge\&logo=githubactions\&logoColor=8A2BE2)
+
+</div>
 
 ---
 
-# Technology Stack
+<div align="center">
 
-The exact stack is still evolving.
+# `// DEVELOPMENT ROADMAP`
 
-### Frontend
+</div>
 
-* React / Next.js
-* TypeScript
-* Tailwind CSS
-* Graph visualization libraries
+### `PHASE 01 // CORE INITIALIZATION`
 
-### Backend
+* [ ] Initialize frontend
+* [ ] Initialize FastAPI backend
+* [ ] Create CyberTwin database schema
+* [ ] Create identity entity model
+* [ ] Add API health check
+* [ ] Implement first user scan
 
-* Python
-* FastAPI
+### `PHASE 02 // DISCOVERY ENGINE`
 
-### Data
+* [ ] Email entity input
+* [ ] Username entity input
+* [ ] Domain input
+* [ ] Identity normalization
+* [ ] Public source integrations
+* [ ] Entity correlation
 
-* PostgreSQL
-* Graph database / graph-processing layer
+### `PHASE 03 // GRAPH ENGINE`
 
-### Security & Intelligence
-
-* OSINT integrations
-* breach intelligence APIs
-* identity correlation
-* risk-scoring engine
-
-### Infrastructure
-
-* Docker
-* GitHub Actions
-* cloud deployment
-
----
-
-# Development Roadmap
-
-### Phase 1 — Foundation
-
-* [ ] Repository architecture
-* [ ] Backend API
-* [ ] Frontend dashboard
-* [ ] User authentication
-* [ ] Database models
-* [ ] Basic CyberTwin profile
-
-### Phase 2 — Identity Discovery
-
-* [ ] Username discovery
-* [ ] Email exposure analysis
-* [ ] Public profile discovery
-* [ ] Entity normalization
-* [ ] Identity correlation
-
-### Phase 3 — CyberTwin Graph
-
-* [ ] Identity graph model
-* [ ] Entity relationships
+* [ ] Graph schema
+* [ ] Identity nodes
+* [ ] Relationship edges
 * [ ] Interactive graph visualization
 * [ ] Exposure nodes
-* [ ] Graph exploration
+* [ ] Graph filtering
 
-### Phase 4 — Risk Intelligence
+### `PHASE 04 // RISK INTELLIGENCE`
 
-* [ ] Risk scoring engine
-* [ ] Exposure severity classification
+* [ ] Risk rules
+* [ ] Severity calculation
+* [ ] Risk scoring model
 * [ ] Security recommendations
-* [ ] Attack-path analysis
-* [ ] Risk dashboard
+* [ ] Exposure dashboard
+* [ ] Historical scan comparison
 
-### Phase 5 — Continuous CyberTwin
+### `PHASE 05 // CYBERTWIN INTELLIGENCE`
 
-* [ ] Periodic exposure monitoring
-* [ ] New-risk detection
-* [ ] Security alerts
-* [ ] Historical risk tracking
-* [ ] CyberTwin evolution timeline
+* [ ] Attack-path modeling
+* [ ] Advanced correlation
+* [ ] Continuous monitoring
+* [ ] Risk change detection
+* [ ] Alert engine
+* [ ] CyberTwin timeline
 
 ---
 
-# Example CyberTwin
+<div align="center">
+
+# `// REPOSITORY STRUCTURE`
+
+</div>
 
 ```text
-CyberTwin: Example User
-
-Digital Identities
-├── Email Addresses
-│   ├── primary@example.com
-│   └── dev@example.com
+CyberTwin/
 │
-├── Usernames
-│   ├── exampledev
-│   └── example_user
+├── frontend/
+│   ├── app/
+│   ├── components/
+│   ├── features/
+│   │   ├── dashboard/
+│   │   ├── identity-graph/
+│   │   └── risk-console/
+│   └── lib/
 │
-├── Accounts
-│   ├── Developer Platform
-│   ├── Community Platform
-│   └── Personal Website
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   ├── core/
+│   │   ├── models/
+│   │   ├── schemas/
+│   │   └── services/
+│   │
+│   ├── engines/
+│   │   ├── discovery/
+│   │   ├── identity/
+│   │   ├── graph/
+│   │   ├── exposure/
+│   │   ├── risk/
+│   │   └── recommendations/
+│   │
+│   └── tests/
 │
-└── Exposure Signals
-    ├── Email Exposure
-    ├── Username Reuse
-    └── Public Metadata
-
-Risk Score: 42 / 100
-
-Primary Risk:
-Identity correlation across multiple public accounts.
+├── docs/
+│   ├── architecture/
+│   ├── security/
+│   └── research/
+│
+├── assets/
+│   ├── banners/
+│   ├── animations/
+│   └── diagrams/
+│
+├── .github/
+│   └── workflows/
+│
+├── docker-compose.yml
+├── LICENSE
+└── README.md
 ```
 
 ---
 
-# Privacy & Ethics
+<div align="center">
 
-CyberTwin deals with security-sensitive information.
+# `// ETHICS PROTOCOL`
 
-Privacy and responsible use therefore need to be fundamental design principles rather than additional features.
+</div>
 
-The project should follow several core principles:
+CyberTwin handles security-sensitive information.
 
-**User Control**
-Users should remain in control of their CyberTwin and associated data.
+The project is intended strictly for:
 
-**Data Minimization**
-Only information necessary for legitimate security analysis should be collected or stored.
+```text
+✓ Personal cybersecurity
+✓ Privacy awareness
+✓ Authorized identity analysis
+✓ Defensive security research
+✓ Digital exposure reduction
+```
 
-**Transparency**
-CyberTwin should explain where risk signals originate and why they affect a user's security posture.
+CyberTwin is **not intended for**:
 
-**Defensive Use**
-CyberTwin is intended for personal cybersecurity, privacy awareness, and authorized security analysis.
+```text
+✗ Unauthorized surveillance
+✗ Credential theft
+✗ Stalking
+✗ Harassment
+✗ Unauthorized intrusion
+✗ Targeting third parties without permission
+```
 
-CyberTwin must not be used for unauthorized surveillance, harassment, credential theft, stalking, or attacks against third parties.
+Core principles:
+
+**Privacy by design.**
+
+**Data minimization.**
+
+**User ownership.**
+
+**Transparency.**
+
+**Defensive security.**
 
 ---
 
-# Vision
+<div align="center">
 
-The long-term goal of CyberTwin is to create a new way of thinking about personal cybersecurity.
+# `// THE VISION`
 
-Traditional security asks:
+Traditional cybersecurity asks:
 
-> Is my device secure?
+### `IS MY DEVICE SECURE?`
 
 CyberTwin asks:
 
-> **Is my digital identity secure?**
+# `IS MY DIGITAL IDENTITY SECURE?`
 
-As people's identities become increasingly distributed across platforms, devices, services, and data ecosystems, protecting individual accounts will no longer be enough.
+<br>
 
-CyberTwin aims to create a living security model capable of understanding that entire digital identity.
+```text
+PERSON
+   ↓
+DATA
+   ↓
+IDENTITY
+   ↓
+RELATIONSHIPS
+   ↓
+EXPOSURE
+   ↓
+RISK
+   ↓
+CYBERTWIN
+```
 
----
+<br>
 
-# Project Status
+<img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=800&size=22&duration=3000&pause=900&color=FF00C8&center=true&width=900&lines=YOUR+DIGITAL+IDENTITY+IS+ALREADY+OUT+THERE.;CYBERTWIN+MAKES+IT+VISIBLE.;UNDERSTAND+THE+GRAPH.;CONTROL+THE+RISK." />
 
-> **Early Development / Experimental**
+<br>
 
-CyberTwin is currently being designed and built. Architecture, APIs, features, and security models are expected to change significantly during development.
+### `YOUR DIGITAL SHADOW SHOULDN'T BE A SECURITY RISK.`
 
----
+<br>
 
-# Contributing
+![Visitors](https://komarev.com/ghpvc/?username=YOUR_GITHUB_USERNAME\&repo=CyberTwin\&label=CYBERTWIN+SCANS\&color=blueviolet\&style=for-the-badge)
 
-CyberTwin is currently in early development.
+<br><br>
 
-Contribution guidelines will be added as the architecture stabilizes.
+`SECURITY // PRIVACY // IDENTITY // INTELLIGENCE`
 
-For now, ideas, security research, architectural suggestions, and discussions around digital identity protection are welcome.
+<br>
 
----
+**CYBERTWIN**
 
-# License
+*Map the identity. Understand the exposure. Protect the human.*
 
-License to be determined.
+<br>
 
----
+<img src="https://capsule-render.vercel.app/api?type=waving&height=140&section=footer&color=0:05001A,30:001BFF,60:8A00FF,85:FF00C8,100:05001A" width="100%" />
 
-<p align="center">
-  <strong>CyberTwin</strong><br>
-  Your digital identity. Mapped. Understood. Protected.
-</p>
+</div>
+
