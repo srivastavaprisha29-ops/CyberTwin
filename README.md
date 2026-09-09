@@ -9,21 +9,22 @@
 ![status](https://img.shields.io/badge/status-experimental-FF2E9A?style=for-the-badge&labelColor=05060D)
 ![stage](https://img.shields.io/badge/stage-early%20development-A855F7?style=for-the-badge&labelColor=05060D)
 ![license](https://img.shields.io/badge/license-TBD-00D9FF?style=for-the-badge&labelColor=05060D)
+![risk](https://img.shields.io/badge/example_risk_score-63%2F100-A855F7?style=for-the-badge&labelColor=05060D)
 
 <br/>
 
-<a href="#the-problem">Problem</a> ·
-<a href="#the-cybertwin-concept">Concept</a> ·
-<a href="#core-features">Features</a> ·
-<a href="#proposed-architecture">Architecture</a> ·
-<a href="#development-roadmap">Roadmap</a> ·
-<a href="#privacy--ethics">Privacy</a>
+<code>[ <a href="#the-problem">PROBLEM</a> ]</code>
+<code>[ <a href="#the-cybertwin-concept">CONCEPT</a> ]</code>
+<code>[ <a href="#core-features">FEATURES</a> ]</code>
+<code>[ <a href="#proposed-architecture">ARCHITECTURE</a> ]</code>
+<code>[ <a href="#development-roadmap">ROADMAP</a> ]</code>
+<code>[ <a href="#privacy--ethics">PRIVACY</a> ]</code>
 
 </div>
 
-<br/>
+<img src="https://capsule-render.vercel.app/api?type=slice&color=0:05060D,50:A855F7,100:FF2E9A&height=6&section=header" width="100%"/>
 
-## Overview
+## ▸ Overview
 
 **CyberTwin** is a cybersecurity platform that builds a security-focused **digital twin** of a person's online identity.
 
@@ -33,75 +34,92 @@ Instead of protecting a single device or account, CyberTwin protects the **digit
 
 <br/>
 
-## The Problem
+## ▸ The Problem
 
 Digital identity is fragmented by default. A single person may have multiple email addresses, dozens of accounts, reused usernames, public profiles, exposed personal information, breached credentials, forgotten accounts, connected services, and publicly visible metadata.
 
 Individually, each fragment looks harmless. Correlated, they can expose:
 
-| Risk | Example |
+| ⬡ Risk | Example |
 |---|---|
-| 🎭 Identity theft | Public bio + reused username reveals real identity |
-| 🎣 Phishing | Exposed email surfaces in a targeted campaign |
-| 🕵️ Impersonation | Dormant account is cloned or hijacked |
-| 🔑 Credential attacks | Breached password reused across services |
-| 🧠 Social engineering | Public metadata used to build a pretext |
-| 🚪 Account takeover | Correlated reset flows chain together |
-| 👁️ Privacy invasion | Location + employer inferred from public posts |
+| Identity theft | Public bio + reused username reveals real identity |
+| Phishing | Exposed email surfaces in a targeted campaign |
+| Impersonation | Dormant account is cloned or hijacked |
+| Credential attacks | Breached password reused across services |
+| Social engineering | Public metadata used to build a pretext |
+| Account takeover | Correlated reset flows chain together |
+| Privacy invasion | Location + employer inferred from public posts |
 
 Most security tools protect individual components. CyberTwin asks a different question:
 
 > **What does my complete digital identity look like from a security perspective?**
 
-<br/>
+<img src="https://capsule-render.vercel.app/api?type=slice&color=0:05060D,50:00D9FF,100:A855F7&height=6&section=header" width="100%"/>
 
-## The CyberTwin Concept
+## ▸ The CyberTwin Concept
 
 CyberTwin builds a virtual security representation — a **Cyber Twin** — of a user's digital presence, continuously evolving as new signals appear.
 
 ```mermaid
 flowchart TD
-    U[USER] --> CT[CyberTwin]
+    U{{USER}} --> CT{{CyberTwin}}
     CT --> A[Accounts & Profiles]
     CT --> B[Identities & Aliases]
     CT --> C[Exposure Signals]
-    A --> IG[Identity Graph]
+    A --> IG{{Identity Graph}}
     B --> IG
     C --> IG
     IG --> RA[Risk Analysis]
-    RA --> ST[Security Twin]
+    RA --> ST{{Security Twin}}
 
+    style U fill:#0a0d1a,stroke:#dbe1f5,color:#dbe1f5
     style CT fill:#0a0d1a,stroke:#00d9ff,color:#dbe1f5
     style IG fill:#0a0d1a,stroke:#a855f7,color:#dbe1f5
     style RA fill:#0a0d1a,stroke:#a855f7,color:#dbe1f5
     style ST fill:#0a0d1a,stroke:#ff2e9a,color:#dbe1f5
 ```
 
-<br/>
+<img src="https://capsule-render.vercel.app/api?type=slice&color=0:05060D,50:A855F7,100:FF2E9A&height=6&section=header" width="100%"/>
 
-## Core Features
+## ▸ Core Features
 
-### 1 · Digital Footprint Discovery
+**⬡ 01 — Digital Footprint Discovery**
 Discovers and organizes publicly accessible information tied to a digital identity — usernames, email addresses, public profiles, websites, domains, account references, and exposed metadata — turning scattered information into a structured model.
 
-### 2 · Identity Graph
+**⬡ 02 — Identity Graph**
 Discovered entities are represented as a connected graph, so relationships between pieces of identity become visible instead of staying isolated.
 
-<div align="center">
-<img src="assets/identity-graph.svg" width="100%" alt="animated identity graph"/>
-</div>
+```mermaid
+flowchart TD
+    P{{Person}} --> E[Email]
+    P --> UN{{Username}}
+    P --> D[Domain]
+    E --> ACC[Account]
+    UN --> PROF[Profile]
+    D --> WEB[Website]
+    ACC --> RS{{Risk Signal}}
+    PROF --> RS
+    WEB --> RS
 
-### 3 · Exposure Detection
+    style P fill:#0a0d1a,stroke:#dbe1f5,color:#dbe1f5
+    style UN fill:#0a0d1a,stroke:#a855f7,color:#dbe1f5
+    style RS fill:#0a0d1a,stroke:#ff2e9a,color:#dbe1f5
+    style E fill:#0a0d1a,stroke:#00d9ff,color:#dbe1f5
+    style D fill:#0a0d1a,stroke:#ff2e9a,color:#dbe1f5
+```
+
+**⬡ 03 — Exposure Detection**
 Flags exposure signals such as leaked credentials, exposed email addresses, forgotten accounts, suspicious identity reuse, publicly accessible sensitive information, and potentially compromised services.
 
-### 4 · Digital Risk Score
+**⬡ 04 — Digital Risk Score**
 An interpretable score representing overall identity exposure — built from exposed-identity count, credential exposure, reuse indicators, account criticality, and entity relationships. The goal isn't just the number; it's explaining **why** the risk exists.
 
-<div align="center">
-<img src="assets/risk-gauge.svg" width="280" alt="animated risk gauge"/>
-</div>
+![risk-score](https://img.shields.io/badge/RISK_SCORE-63%2F100-A855F7?style=for-the-badge&labelColor=05060D)
+![credential](https://img.shields.io/badge/credential_exposure-78%25-FF2E9A?style=flat-square&labelColor=05060D)
+![reuse](https://img.shields.io/badge/identity_reuse-64%25-A855F7?style=flat-square&labelColor=05060D)
+![public](https://img.shields.io/badge/public_info_exposure-55%25-00D9FF?style=flat-square&labelColor=05060D)
 
-### 5 · Attack-Surface Simulation *(planned)*
+**⬡ 05 — Attack-Surface Simulation** <sub>· planned</sub>
 Analyzes the identity graph from an attacker's perspective, tracing plausible paths before they're exploited:
 
 ```mermaid
@@ -110,7 +128,7 @@ flowchart LR
     B --> C[Exposed Email]
     C --> D[Breached Service]
     D --> E[Possible Credential Reuse]
-    E --> F[High-Value Account]
+    E --> F{{High-Value Account}}
 
     style A fill:#0a0d1a,stroke:#00d9ff,color:#dbe1f5
     style B fill:#0a0d1a,stroke:#00d9ff,color:#dbe1f5
@@ -120,23 +138,23 @@ flowchart LR
     style F fill:#0a0d1a,stroke:#ff2e9a,color:#dbe1f5
 ```
 
-### 6 · Security Recommendations
+**⬡ 06 — Security Recommendations**
 Every detected risk resolves to a concrete next step — moving from **Detection → Understanding → Action**.
 
 | Signal | Recommendation |
 |---|---|
-| ⚠ Email found in known breach | Change credentials for the affected service |
-| ⚠ Username reused across platforms | Separate public and private identities |
-| ⚠ Excessive personal info exposed | Review privacy settings, remove what isn't needed |
+| Email found in known breach | Change credentials for the affected service |
+| Username reused across platforms | Separate public and private identities |
+| Excessive personal info exposed | Review privacy settings, remove what isn't needed |
 
-<br/>
+<img src="https://capsule-render.vercel.app/api?type=slice&color=0:05060D,50:00D9FF,100:FF2E9A&height=6&section=header" width="100%"/>
 
-## Proposed Architecture
+## ▸ Proposed Architecture
 
 ```mermaid
 flowchart TD
     FE["Frontend — Dashboard / Identity Graph"] --> API["API Layer — Auth / API"]
-    API --> ENGINE["CyberTwin Engine"]
+    API --> ENGINE{{CyberTwin Engine}}
 
     subgraph ENGINE_DETAIL[" "]
         E1[Identity Discovery]
@@ -160,7 +178,7 @@ flowchart TD
 ```
 
 <details>
-<summary><b>Technology stack</b></summary>
+<summary><b>⬡ Technology stack</b></summary>
 <br/>
 
 ![React](https://img.shields.io/badge/React-00D9FF?style=flat-square&logo=react&logoColor=05060D&labelColor=05060D)
@@ -181,12 +199,12 @@ flowchart TD
 
 </details>
 
-<br/>
+<img src="https://capsule-render.vercel.app/api?type=slice&color=0:05060D,50:A855F7,100:00D9FF&height=6&section=header" width="100%"/>
 
-## Development Roadmap
+## ▸ Development Roadmap
 
 <details open>
-<summary><b>Phase 1 — Foundation</b></summary>
+<summary><b>⬡ Phase 01 — Foundation</b></summary>
 
 - [ ] Repository architecture
 - [ ] Backend API
@@ -197,7 +215,7 @@ flowchart TD
 </details>
 
 <details>
-<summary><b>Phase 2 — Identity Discovery</b></summary>
+<summary><b>⬡ Phase 02 — Identity Discovery</b></summary>
 
 - [ ] Username discovery
 - [ ] Email exposure analysis
@@ -207,7 +225,7 @@ flowchart TD
 </details>
 
 <details>
-<summary><b>Phase 3 — CyberTwin Graph</b></summary>
+<summary><b>⬡ Phase 03 — CyberTwin Graph</b></summary>
 
 - [ ] Identity graph model
 - [ ] Entity relationships
@@ -217,7 +235,7 @@ flowchart TD
 </details>
 
 <details>
-<summary><b>Phase 4 — Risk Intelligence</b></summary>
+<summary><b>⬡ Phase 04 — Risk Intelligence</b></summary>
 
 - [ ] Risk scoring engine
 - [ ] Exposure severity classification
@@ -227,7 +245,7 @@ flowchart TD
 </details>
 
 <details>
-<summary><b>Phase 5 — Continuous CyberTwin</b></summary>
+<summary><b>⬡ Phase 05 — Continuous CyberTwin</b></summary>
 
 - [ ] Periodic exposure monitoring
 - [ ] New-risk detection
@@ -236,9 +254,9 @@ flowchart TD
 - [ ] CyberTwin evolution timeline
 </details>
 
-<br/>
+<img src="https://capsule-render.vercel.app/api?type=slice&color=0:05060D,50:00D9FF,100:A855F7&height=6&section=header" width="100%"/>
 
-## Example CyberTwin
+## ▸ Example CyberTwin
 
 ```text
 CyberTwin: Example User
@@ -268,7 +286,7 @@ Primary Risk: Identity correlation across multiple public accounts.
 
 <br/>
 
-## Privacy & Ethics
+## ▸ Privacy & Ethics
 
 CyberTwin deals with security-sensitive information, so privacy and responsible use are fundamental design principles, not add-on features.
 
@@ -281,7 +299,7 @@ CyberTwin must not be used for unauthorized surveillance, harassment, credential
 
 <br/>
 
-## Vision
+## ▸ Vision
 
 Traditional security asks *"is my device secure?"* CyberTwin asks:
 
@@ -291,15 +309,11 @@ As identity becomes distributed across platforms, devices, services, and data ec
 
 <br/>
 
-## Contributing
+## ▸ Contributing
 
 CyberTwin is in early development — contribution guidelines will land as the architecture stabilizes. Ideas, security research, and architectural discussion are welcome in the meantime.
 
-<br/>
-
 <div align="center">
-<img src="assets/twin-core.svg" width="120" alt="cybertwin core"/>
-<br/>
 <sub>Project status: <b>Early Development / Experimental</b> — architecture, APIs, and models are expected to change.</sub>
 </div>
 
