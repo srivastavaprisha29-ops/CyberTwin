@@ -34,6 +34,17 @@ Instead of protecting a single device or account, CyberTwin protects the **digit
 
 <br/>
 
+## Try the live demo
+
+[Open CyberTwin on GitHub Pages](https://srivastavaprisha29-ops.github.io/CyberTwin/#demo)
+
+1. Select an account or exposure in Alex Rivera’s fictional identity graph.
+2. Read how the selected signal contributes to the illustrative score.
+3. Toggle a protective action, such as enabling email MFA, and watch the score update from **63/100 to 33/100**.
+4. Select **Reset example** to restore the starting state.
+
+The demo runs in your browser with sample data. It requires no sign-in or personal information. The architecture and roadmap below describe future capabilities, including live exposure checks and monitoring.
+
 ## ▸ The Problem
 
 Digital identity is fragmented by default. A single person may have multiple email addresses, dozens of accounts, reused usernames, public profiles, exposed personal information, breached credentials, forgotten accounts, connected services, and publicly visible metadata.
