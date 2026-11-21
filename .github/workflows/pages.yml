@@ -29,7 +29,7 @@ jobs:
       - name: Install browser test dependencies
         run: |
           python3 -m venv .venv
-          .venv/bin/python -m pip install playwright==1.58.2
+          .venv/bin/python -m pip install playwright==1.55.2
           .venv/bin/python -m playwright install --with-deps chromium
       - name: Test the staged site in Chromium
         run: .venv/bin/python tests/browser_smoke.py
