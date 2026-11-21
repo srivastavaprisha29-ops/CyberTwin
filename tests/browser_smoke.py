@@ -54,6 +54,26 @@ def verify_demo(url):
         expect(page.get_by_role("button", name="Alex Rivera")).to_have_attribute(
             "aria-pressed", "true"
         )
+        reference = {"name": "reference.txt", "mimeType": "text/plain", "buffer": b"known bytes"}
+        page.locator("#media-reference").set_input_files(reference)
+        candidate = page.locator("#media-candidate")
+        candidate.set_input_files(reference)
+        compare = page.get_by_role("button", name="Compare files")
+        compare.click()
+        expect(page.locator("#media-result")).to_contain_text("Fingerprints match")
+        candidate.set_input_files({**reference, "buffer": b"changed bytes"})
+        compare.click()
+        expect(page.locator("#media-result")).to_contain_text("Fingerprints differ")
+
+        page.get_by_role("button", name="Run compression test").click()
+        result = page.locator("#media-compression")
+        expect(result).to_contain_text("Mean RGB channel change")
+        high = float(result.inner_text().split(": ")[1].split(" / ")[0])
+        page.locator("#media-quality").select_option("0.35")
+        page.get_by_role("button", name="Run compression test").click()
+        expect(result).to_contain_text("Mean RGB channel change")
+        low = float(result.inner_text().split(": ")[1].split(" / ")[0])
+        assert low > high > 0, (high, low)
         assert not errors, errors
         browser.close()
 

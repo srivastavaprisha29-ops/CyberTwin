@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p _site
           cp land.html _site/index.html
-          cp styles.css demo.js risk-model.mjs _site/
+          cp styles.css demo.js risk-model.mjs media-lab.js _site/
       - name: Install browser test dependencies
         run: |
           python3 -m venv .venv

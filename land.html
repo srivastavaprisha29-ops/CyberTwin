@@ -56,7 +56,7 @@
     <p class="tagline">Your digital identity has a life of its own, scattered across accounts, aliases and exposed credentials. CyberTwin maps it into one living security model — so you can see it, understand it, and protect it.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#demo">Try the interactive demo</a>
-      <a class="btn btn-ghost" href="#roadmap">View roadmap</a>
+      <a class="btn btn-ghost" href="#media-lab">Try media verification</a>
     </div>
     <div class="scroll-cue"></div>
   </div>
@@ -272,6 +272,37 @@
   </div>
 </section>
 
+<section id="media-lab">
+  <div class="wrap">
+    <h2>Media verification lab</h2>
+    <p>Try two evidence checks. Each answers a different question about a file.</p>
+    <div class="demo-layout">
+      <div class="demo-panel">
+        <h3>Compare a file with a trusted copy</h3>
+        <p>Choose a reference you trust and the file you received. CyberTwin compares SHA-256 hashes in your browser. Files stay on your device.</p>
+        <label>Trusted reference <input id="media-reference" type="file"></label>
+        <label>File to compare <input id="media-candidate" type="file"></label>
+        <button type="button" id="media-compare">Compare files</button>
+        <p id="media-result" role="status"></p>
+        <p>Matching bytes do not establish whether the content depicts a real event. This comparison does not validate signed credentials.</p>
+        <a href="https://spec.c2pa.org/specifications/specifications/2.4/explainer/Explainer.html">Read about C2PA Content Credentials</a>
+      </div>
+      <div class="demo-panel">
+        <h3>See what JPEG compression changes</h3>
+        <p>Re-encode a generated test pattern and measure the mean absolute change in its RGB channel values on a 0–255 scale. The measurement is pixel distortion, not a deepfake score.</p>
+        <label for="media-quality">JPEG quality</label>
+        <select id="media-quality">
+          <option value="0.95">High</option>
+          <option value="0.35">Low</option>
+        </select>
+        <button type="button" id="media-compress">Run compression test</button>
+        <p id="media-compression" role="status"></p>
+        <a href="https://openaccess.thecvf.com/content_ICCV_2019/html/Rossler_FaceForensics_Learning_to_Detect_Manipulated_Facial_Images_ICCV_2019_paper.html">Read FaceForensics++ (ICCV 2019)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="roadmap">
   <div class="wrap">
     <div class="section-tag">// DEVELOPMENT ROADMAP</div>
@@ -338,5 +369,6 @@
 </footer>
 
 <script type="module" src="./demo.js"></script>
+<script type="module" src="./media-lab.js"></script>
 </body>
 </html>
