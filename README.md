@@ -45,6 +45,16 @@ Instead of protecting a single device or account, CyberTwin protects the **digit
 
 The demo runs in your browser with sample data. It requires no sign-in or personal information. The architecture and roadmap below describe future capabilities, including live exposure checks and monitoring.
 
+### Run locally
+
+Serve the repository with `python3 -m http.server 8000` and open `http://localhost:8000/land.html#demo`.
+
+| File | Responsibility |
+|---|---|
+| `land.html` | Page structure and accessible demo controls |
+| `styles.css` | Layout, visual styling, and animations |
+| `demo.js` | Identity graph selection, risk scoring, and protective actions |
+
 ## ▸ The Problem
 
 Digital identity is fragmented by default. A single person may have multiple email addresses, dozens of accounts, reused usernames, public profiles, exposed personal information, breached credentials, forgotten accounts, connected services, and publicly visible metadata.
