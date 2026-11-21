@@ -323,6 +323,11 @@
   .demo-panel :focus-visible{outline:2px solid var(--blue);outline-offset:3px}
   .demo-panel fieldset{border:0;margin:12px 0}
   .demo-panel label{display:block;margin:8px 0}
+  .demo-research{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+  .demo-research summary{cursor:pointer;color:var(--blue)}
+  .demo-research select{font:inherit;max-width:100%;color:var(--text);background:var(--bg-panel-2)}
+  .demo-research p{margin:8px 0}
+  .demo-research a{text-decoration:underline}
   #demo-score{color:var(--blue);font-size:1.5em}
 </style>
 </head>
@@ -558,7 +563,7 @@
       <div class="demo-panel">
         <h3>Illustrative risk score</h3>
         <p role="status"><strong id="demo-score">63 / 100</strong></p>
-        <p>The score adds the points assigned to unresolved signals in this example.</p>
+        <p>The score adds the points assigned to unresolved signals in this example. The weights are illustrative and represent neither measured probabilities nor values from the sources below.</p>
         <p id="demo-detail" aria-live="polite">Three accounts contribute to Alex’s overall exposure.</p>
         <fieldset>
           <legend>Protective actions</legend>
@@ -567,6 +572,20 @@
           <label><input type="checkbox" data-action="contact"> Remove public contact details (−10 points)</label>
         </fieldset>
         <button type="button" id="demo-reset">Reset example</button>
+        <details class="demo-research">
+          <summary>How these protections work</summary>
+          <label for="demo-auth-method">Compare email sign-in methods</label>
+          <select id="demo-auth-method">
+            <option value="password">Password only</option>
+            <option value="otp">Password + authenticator app code</option>
+            <option value="passkey">WebAuthn passkey</option>
+          </select>
+          <p id="demo-auth-detail" aria-live="polite">A password alone provides no additional sign-in check if the password is exposed.</p>
+          <p><a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-63B-4.pdf">NIST SP 800-63B-4 §3.2.5</a></p>
+          <h4>Password reuse across services</h4>
+          <p id="demo-reuse-detail" aria-live="polite">In this scenario, the forum and another service share a password. An exposure at one can put the other at risk.</p>
+          <p><a href="https://www.ndss-symposium.org/ndss2014/ndss-2014-programme/tangled-web-password-reuse/">Das et al., The Tangled Web of Password Reuse (NDSS 2014)</a></p>
+        </details>
       </div>
     </div>
   </div>
@@ -648,6 +667,14 @@
     contact: { points: 10, reason: 'The personal website displays private contact details.' }
   };
   const relatedSignal = { email: 'mfa', forum: 'password', site: 'contact' };
+  const authMethod = demo.querySelector('#demo-auth-method');
+  const authDetail = demo.querySelector('#demo-auth-detail');
+  const reuseDetail = demo.querySelector('#demo-reuse-detail');
+  const authentication = {
+    password: 'A password alone provides no additional sign-in check if the password is exposed.',
+    otp: 'An authenticator app adds a second factor. A manually entered one-time code still lacks phishing resistance.',
+    passkey: 'WebAuthn binds the sign-in credential to the legitimate site. This provides phishing resistance.'
+  };
   let selected = 'profile';
 
   function render() {
@@ -655,6 +682,10 @@
       action.dataset.action,
       action.checked ? 0 : signals[action.dataset.action].points
     ]));
+    authDetail.textContent = authentication[authMethod.value];
+    reuseDetail.textContent = activePoints.password
+      ? 'In this scenario, the forum and another service share a password. An exposure at one can put the other at risk.'
+      : 'The forum now has a unique password. Exposure of that password no longer compromises the other account through reuse.';
     const total = Object.values(activePoints).reduce((sum, points) => sum + points, 0);
     demo.querySelector('#demo-score').textContent = total + ' / 100';
     nodes.forEach(node => node.setAttribute('aria-pressed', String(node.dataset.node === selected)));
@@ -671,8 +702,10 @@
     render();
   }));
   actions.forEach(action => action.addEventListener('change', render));
+  authMethod.addEventListener('change', render);
   demo.querySelector('#demo-reset').addEventListener('click', () => {
     actions.forEach(action => { action.checked = false; });
+    authMethod.value = 'password';
     selected = 'profile';
     render();
   });
