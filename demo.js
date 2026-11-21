@@ -1,4 +1,4 @@
-import { calculateRisk, signals } from './risk-model.mjs';
+import { calculateRisk, prioritizeActions, signals } from './risk-model.mjs';
 
 (() => {
   const demo = document.querySelector('#demo');
@@ -13,11 +13,22 @@ import { calculateRisk, signals } from './risk-model.mjs';
     otp: 'An authenticator app adds a second factor. A manually entered one-time code still lacks phishing resistance.',
     passkey: 'WebAuthn binds the sign-in credential to the legitimate site. This provides phishing resistance.'
   };
+  const priorities = demo.querySelector('#demo-priorities');
+  const priorityStatus = demo.querySelector('#demo-priority-status');
   let selected = 'profile';
 
   function render() {
     const resolved = new Set(actions.filter(action => action.checked).map(action => action.dataset.action));
     const { activePoints, total } = calculateRisk(resolved);
+    const remaining = prioritizeActions(activePoints);
+    priorities.replaceChildren(...remaining.map(({ action, points }) => {
+      const item = document.createElement('li');
+      item.textContent = action + ' (−' + points + ' points)';
+      return item;
+    }));
+    priorityStatus.textContent = remaining.length
+      ? remaining.length + (remaining.length === 1 ? ' action remaining.' : ' actions remaining.')
+      : 'All protective actions in this scenario are complete.';
     authDetail.textContent = authentication[authMethod.value];
     reuseDetail.textContent = activePoints.password
       ? 'In this scenario, the forum and another service share a password. An exposure at one can put the other at risk.'

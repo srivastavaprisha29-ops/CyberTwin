@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { calculateRisk } from './risk-model.mjs';
+import { calculateRisk, prioritizeActions } from './risk-model.mjs';
 
 test('each combination of protective actions has the expected score', () => {
   const scenarios = [
@@ -24,4 +24,13 @@ test('the score breakdown stays consistent when an action is undone', () => {
   assert.deepEqual(calculateRisk(resolved).activePoints, { mfa: 30, password: 0, contact: 10 });
   resolved.delete('password');
   assert.deepEqual(calculateRisk(resolved).activePoints, { mfa: 30, password: 23, contact: 10 });
+});
+
+test('priorities rank unresolved actions by score impact', () => {
+  const { activePoints } = calculateRisk(new Set(['mfa']));
+  assert.deepEqual(prioritizeActions(activePoints), [
+    { action: 'Set a unique forum password', points: 23 },
+    { action: 'Remove public contact details', points: 10 }
+  ]);
+  assert.deepEqual(prioritizeActions(calculateRisk(new Set(['mfa', 'password', 'contact'])).activePoints), []);
 });
