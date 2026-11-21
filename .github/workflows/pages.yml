@@ -26,6 +26,13 @@ jobs:
           mkdir -p _site
           cp land.html _site/index.html
           cp styles.css demo.js risk-model.mjs _site/
+      - name: Install browser test dependencies
+        run: |
+          python3 -m venv .venv
+          .venv/bin/python -m pip install playwright==1.58.2
+          .venv/bin/python -m playwright install --with-deps chromium
+      - name: Test the staged site in Chromium
+        run: .venv/bin/python tests/browser_smoke.py
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
