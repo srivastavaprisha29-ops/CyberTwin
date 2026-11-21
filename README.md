@@ -41,7 +41,8 @@ Instead of protecting a single device or account, CyberTwin protects the **digit
 1. Select an account or exposure in Alex Rivera’s fictional identity graph.
 2. Read how the selected signal contributes to the illustrative score.
 3. Toggle a protective action, such as enabling email MFA, and watch the score update from **63/100 to 33/100**.
-4. Select **Reset example** to restore the starting state.
+4. Select **Download report** to save your before-and-after score and remaining priorities.
+5. Select **Reset example** to restore the starting state.
 
 The demo runs in your browser with sample data. It requires no sign-in or personal information. The architecture and roadmap below describe future capabilities, including live exposure checks and monitoring.
 
