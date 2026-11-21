@@ -40,6 +40,7 @@ for (const input of [reference, candidate]) {
 const compress = byId('media-compress');
 const quality = byId('media-quality');
 const compression = byId('media-compression');
+const preview = byId('media-preview');
 
 compress.addEventListener('click', async () => {
   compress.disabled = quality.disabled = true;
@@ -57,8 +58,12 @@ compress.addEventListener('click', async () => {
       original.data[offset + 3] = 255;
     }
     context.putImageData(original, 0, 0);
+    const originalPreview = canvas.toDataURL('image/png');
+    const jpeg = canvas.toDataURL('image/jpeg', Number(quality.value));
+    if (!jpeg.startsWith('data:image/jpeg;base64,')) throw new Error('JPEG encoding unavailable');
+    const bytes = atob(jpeg.split(',')[1]).length;
     const image = new Image();
-    image.src = canvas.toDataURL('image/jpeg', Number(quality.value));
+    image.src = jpeg;
     await image.decode();
     context.drawImage(image, 0, 0);
     const decoded = context.getImageData(0, 0, 96, 96).data;
@@ -68,11 +73,18 @@ compress.addEventListener('click', async () => {
         difference += Math.abs(decoded[offset + channel] - original.data[offset + channel]);
       }
     }
-    compression.textContent = 'Mean RGB channel change: ' + (difference / (96 * 96 * 3)).toFixed(2) + ' / 255.';
+    byId('media-original').src = originalPreview;
+    byId('media-jpeg').src = jpeg;
+    preview.hidden = false;
+    compression.textContent = 'Mean RGB channel change: ' + (difference / (96 * 96 * 3)).toFixed(2) + ' / 255. JPEG size: ' + bytes.toLocaleString() + ' bytes.';
   } catch {
+    preview.hidden = true;
     compression.textContent = 'This browser could not run the JPEG experiment.';
   } finally {
     compress.disabled = quality.disabled = false;
   }
 });
-quality.addEventListener('change', () => { compression.textContent = ''; });
+quality.addEventListener('change', () => {
+  compression.textContent = '';
+  preview.hidden = true;
+});

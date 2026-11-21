@@ -320,3 +320,17 @@
   .demo-research p{margin:8px 0}
   .demo-research a{text-decoration:underline}
   #demo-score{color:var(--blue);font-size:1.5em}
+
+#media-preview:not([hidden]) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+#media-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 192px;
+  image-rendering: pixelated;
+}
