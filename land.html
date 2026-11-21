@@ -313,6 +313,17 @@
     nav .links{display:none;}
     section{padding:76px 0;}
   }
+
+  .demo-layout{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:24px;margin-top:24px}
+  .demo-panel{border:1px solid var(--line);background:var(--bg-panel);padding:20px;border-radius:12px}
+  .demo-panel ul{list-style:none;padding-left:18px;border-left:1px solid var(--purple)}
+  .demo-panel li{margin:8px 0}
+  .demo-panel button{font:inherit;color:var(--text);background:var(--bg-panel-2);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer}
+  .demo-panel button[aria-pressed="true"]{border-color:var(--blue);color:var(--blue)}
+  .demo-panel :focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+  .demo-panel fieldset{border:0;margin:12px 0}
+  .demo-panel label{display:block;margin:8px 0}
+  #demo-score{color:var(--blue);font-size:1.5em}
 </style>
 </head>
 <body>
@@ -362,7 +373,7 @@
     <h1 class="glitch" data-text="CYBERTWIN">CYBERTWIN</h1>
     <p class="tagline">Your digital identity has a life of its own, scattered across accounts, aliases and exposed credentials. CyberTwin maps it into one living security model — so you can see it, understand it, and protect it.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="#graph">Explore the identity graph</a>
+      <a class="btn btn-primary" href="#demo">Try the interactive demo</a>
       <a class="btn btn-ghost" href="#roadmap">View roadmap</a>
     </div>
     <div class="scroll-cue"></div>
@@ -521,6 +532,46 @@
   </div>
 </section>
 
+<section id="demo">
+  <div class="wrap">
+    <h2>Try the CyberTwin demo</h2>
+    <p>Explore Alex Rivera’s fictional profile. Select a node to see how it affects the score, then try a protective action.</p>
+    <div class="demo-layout">
+      <div class="demo-panel">
+        <h3>Identity graph</h3>
+        <ul>
+          <li><button type="button" data-node="profile" aria-pressed="true">Alex Rivera</button>
+            <ul>
+              <li><button type="button" data-node="email" aria-pressed="false">Email account</button>
+                <ul><li><button type="button" data-node="mfa" aria-pressed="false">MFA disabled</button></li></ul>
+              </li>
+              <li><button type="button" data-node="forum" aria-pressed="false">Community forum</button>
+                <ul><li><button type="button" data-node="password" aria-pressed="false">Reused password</button></li></ul>
+              </li>
+              <li><button type="button" data-node="site" aria-pressed="false">Personal website</button>
+                <ul><li><button type="button" data-node="contact" aria-pressed="false">Public contact details</button></li></ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="demo-panel">
+        <h3>Illustrative risk score</h3>
+        <p role="status"><strong id="demo-score">63 / 100</strong></p>
+        <p>The score adds the points assigned to unresolved signals in this example.</p>
+        <p id="demo-detail" aria-live="polite">Three accounts contribute to Alex’s overall exposure.</p>
+        <fieldset>
+          <legend>Protective actions</legend>
+          <label><input type="checkbox" data-action="mfa"> Enable email MFA (−30 points)</label>
+          <label><input type="checkbox" data-action="password"> Set a unique forum password (−23 points)</label>
+          <label><input type="checkbox" data-action="contact"> Remove public contact details (−10 points)</label>
+        </fieldset>
+        <button type="button" id="demo-reset">Reset example</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="roadmap">
   <div class="wrap">
     <div class="section-tag">// DEVELOPMENT ROADMAP</div>
@@ -586,5 +637,47 @@
   <span>defensive use only</span>
 </footer>
 
+<script>
+(() => {
+  const demo = document.querySelector('#demo');
+  const nodes = [...demo.querySelectorAll('[data-node]')];
+  const actions = [...demo.querySelectorAll('[data-action]')];
+  const signals = {
+    mfa: { points: 30, reason: 'The email account relies on a password alone.' },
+    password: { points: 23, reason: 'The community forum shares a password with another account.' },
+    contact: { points: 10, reason: 'The personal website displays private contact details.' }
+  };
+  const relatedSignal = { email: 'mfa', forum: 'password', site: 'contact' };
+  let selected = 'profile';
+
+  function render() {
+    const activePoints = Object.fromEntries(actions.map(action => [
+      action.dataset.action,
+      action.checked ? 0 : signals[action.dataset.action].points
+    ]));
+    const total = Object.values(activePoints).reduce((sum, points) => sum + points, 0);
+    demo.querySelector('#demo-score').textContent = total + ' / 100';
+    nodes.forEach(node => node.setAttribute('aria-pressed', String(node.dataset.node === selected)));
+    const key = relatedSignal[selected] ?? selected;
+    demo.querySelector('#demo-detail').textContent = key === 'profile'
+      ? 'Three accounts contribute to Alex’s overall exposure.'
+      : activePoints[key]
+        ? signals[key].reason + ' Adds ' + activePoints[key] + ' points.'
+        : 'Protective action applied. This signal now adds 0 points.';
+  }
+
+  nodes.forEach(node => node.addEventListener('click', () => {
+    selected = node.dataset.node;
+    render();
+  }));
+  actions.forEach(action => action.addEventListener('change', render));
+  demo.querySelector('#demo-reset').addEventListener('click', () => {
+    actions.forEach(action => { action.checked = false; });
+    selected = 'profile';
+    render();
+  });
+  render();
+})();
+</script>
 </body>
 </html>
