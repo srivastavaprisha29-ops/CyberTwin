@@ -1,4 +1,4 @@
-import { calculateRisk, prioritizeActions, signals } from './risk-model.mjs';
+import { calculateRisk, formatRiskReport, prioritizeActions, signals } from './risk-model.mjs';
 
 (() => {
   const demo = document.querySelector('#demo');
@@ -17,9 +17,12 @@ import { calculateRisk, prioritizeActions, signals } from './risk-model.mjs';
   const priorityStatus = demo.querySelector('#demo-priority-status');
   let selected = 'profile';
 
+  function getResolvedSignals() {
+    return new Set(actions.filter(action => action.checked).map(action => action.dataset.action));
+  }
+
   function render() {
-    const resolved = new Set(actions.filter(action => action.checked).map(action => action.dataset.action));
-    const { activePoints, total } = calculateRisk(resolved);
+    const { activePoints, total } = calculateRisk(getResolvedSignals());
     const remaining = prioritizeActions(activePoints);
     priorities.replaceChildren(...remaining.map(({ action, points }) => {
       const item = document.createElement('li');
@@ -49,6 +52,17 @@ import { calculateRisk, prioritizeActions, signals } from './risk-model.mjs';
   }));
   actions.forEach(action => action.addEventListener('change', render));
   authMethod.addEventListener('change', render);
+  demo.querySelector('#demo-download').addEventListener('click', () => {
+    const report = new Blob([formatRiskReport(getResolvedSignals())], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(report);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'cybertwin-demo-report.txt';
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
   demo.querySelector('#demo-reset').addEventListener('click', () => {
     actions.forEach(action => { action.checked = false; });
     authMethod.value = 'password';
