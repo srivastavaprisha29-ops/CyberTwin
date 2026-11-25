@@ -49,3 +49,15 @@ python3 research/evaluate_media.py heldout-scores.csv --calibration calibration-
 The example caps the pooled calibration false-positive rate at 5%. The evaluator maximizes calibration recall under that cap, preferring fewer false positives and then a higher threshold when tied. It applies the selected cutoff to every held-out stratum and reports calibration counts and rates separately. The cap applies to calibration observations. Held-out rates may differ.
 
 The evaluator rejects identical dataset and clip identifiers across splits, even at different compressions. Assign related versions and derivatives of each source to the same split before scoring. The check relies on identifiers and cannot infer shared origins from media content.
+
+## Compare two scorers on the same clips
+
+Supply four score CSVs in the format above. The two calibration files must describe the same labeled clips and compression levels, as must the two held-out files. The order of the rows can differ. Each scorer receives its own calibration cutoff under the same false-alarm cap.
+
+```sh
+python3 research/compare_media.py \
+  --baseline-calibration baseline-cal.csv --candidate-calibration candidate-cal.csv \
+  --baseline-test baseline-test.csv --candidate-test candidate-test.csv --max-fpr 0.05
+```
+
+The report shows each scorer's calibration cutoff, held-out confusion counts, and the change in error rates in percentage points for each dataset and compression level. Negative changes mean fewer errors for the candidate. Rates remain unavailable for strata without the corresponding class. Any excluded clip must be excluded from both files for its split, and exclusions should be recorded in the experiment notes.
