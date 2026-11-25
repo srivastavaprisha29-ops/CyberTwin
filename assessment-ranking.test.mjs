@@ -66,3 +66,17 @@ test('one-time codes receive an optional upgrade after unresolved protections', 
   assert.deepEqual(actions.map(action => action.label), ['Notes', 'Forum', 'Payroll']);
   assert.match(describeAction(actions[2]), /phishing-resistant sign-in/);
 });
+
+test('reuse guidance names only accounts in the same group', () => {
+  const accounts = [
+    account('Email', { password: 'reuse-a' }),
+    account('Forum', { password: 'reuse-a' }),
+    account('Store', { password: 'reuse-b' }),
+    account('Notes', { password: 'missing' })
+  ];
+  const actions = buildActionPlan(accounts);
+  assert.deepEqual(actions.map(action => action.state), Array(4).fill('missing'));
+  assert.deepEqual(actions.map(action => action.reusePartners), [['Forum'], ['Email'], [], []]);
+  accounts[1].password = 'enabled';
+  assert.deepEqual(buildActionPlan(accounts)[0].reusePartners, []);
+});

@@ -120,10 +120,16 @@ def verify_demo(url):
         expect(assessment.locator("#assessment-plan li").last).to_contain_text(
             "phishing-resistant sign-in"
         )
+        email.get_by_label("Password reuse").select_option("reuse-a")
+        forum.get_by_label("Password reuse").select_option("reuse-a")
+        expect(assessment.locator("#assessment-plan")).to_contain_text(
+            "Replace it on these accounts too: Old forum."
+        )
         with page.expect_download() as exported:
             assessment.get_by_role("button", name="Download action plan").click()
         exported_plan = Path(exported.value.path()).read_text(encoding="utf-8")
         assert "Old forum uses Primary email for recovery." in exported_plan
+        assert "Replace it on these accounts too: Old forum." in exported_plan
         assessment.get_by_role("button", name="Remove Primary email").click()
         expect(assessment.locator("#assessment-links")).to_contain_text(
             "Choose a recovery account"

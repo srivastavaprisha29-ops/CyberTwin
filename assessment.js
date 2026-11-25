@@ -1,4 +1,4 @@
-import { buildActionPlan, describeAction, formatActionPlan } from './assessment-model.mjs?v=3';
+import { buildActionPlan, describeAction, formatActionPlan } from './assessment-model.mjs?v=4';
 
 const section = document.querySelector('#my-cybertwin');
 const form = section.querySelector('form');
