@@ -56,6 +56,7 @@
     <p class="tagline">Your digital identity has a life of its own, scattered across accounts, aliases and exposed credentials. CyberTwin maps it into one living security model — so you can see it, understand it, and protect it.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#demo">Try the interactive demo</a>
+      <a class="btn btn-ghost" href="#my-cybertwin">Build my action plan</a>
       <a class="btn btn-ghost" href="#media-lab">Try media verification</a>
     </div>
     <div class="scroll-cue"></div>
@@ -273,6 +274,57 @@
   </div>
 </section>
 
+<section id="my-cybertwin">
+  <div class="wrap">
+    <h2>My CyberTwin</h2>
+    <p>Map the accounts you use for recovery and decide what to protect first. Use labels such as Primary email or Old forum. Keep passwords and real email addresses out of the assessment.</p>
+    <p>Your entries stay in this tab. Download your plan before leaving or reloading.</p>
+    <div class="demo-layout">
+      <div class="demo-panel assessment-panel">
+        <h3>Add accounts</h3>
+        <form>
+          <label for="assessment-label">Account label</label>
+          <input id="assessment-label" name="label" maxlength="50" required autocomplete="off">
+          <button type="submit" disabled>Add account</button>
+        </form>
+        <p id="assessment-status" role="status"></p>
+        <div id="assessment-accounts"></div>
+        <template>
+          <fieldset>
+            <legend></legend>
+            <label>Multifactor authentication
+              <select name="mfa">
+                <option value="unknown">Unknown</option>
+                <option value="missing">Disabled</option>
+                <option value="enabled">Enabled</option>
+              </select>
+            </label>
+            <label>Unique password
+              <select name="password">
+                <option value="unknown">Unknown</option>
+                <option value="missing">Reused</option>
+                <option value="enabled">Unique</option>
+              </select>
+            </label>
+            <label>Recovery account
+              <select name="recovery"><option value="">None listed</option></select>
+            </label>
+            <button type="button">Remove account</button>
+          </fieldset>
+        </template>
+      </div>
+      <div class="demo-panel assessment-panel">
+        <h3>Review recovery connections</h3>
+        <ul id="assessment-links"></ul>
+        <h3>Prioritized action plan</h3>
+        <p>Confirmed gaps come first. Within each group, accounts that support more direct recovery links rank higher.</p>
+        <ol id="assessment-plan"></ol>
+        <button id="assessment-export" type="button" disabled>Download action plan</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="media-lab">
   <div class="wrap">
     <h2>Media verification lab</h2>
@@ -378,5 +430,6 @@
 
 <script type="module" src="./demo.js"></script>
 <script type="module" src="./media-lab.js"></script>
+<script type="module" src="./assessment.js"></script>
 </body>
 </html>
