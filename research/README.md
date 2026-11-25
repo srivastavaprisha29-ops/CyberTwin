@@ -126,3 +126,15 @@ python3 research/score_onnx.py heldout.csv --model detector.onnx --size 224 \
 Use `--output probability` if the graph already applies a sigmoid. The runner averages per-frame probabilities from the first 30 seconds sampled at 5 fps. Output matches the evaluator CSV schema. Generate calibration scores separately and compare them with baseline scores on the same labeled clips. Record the checkpoint and preprocessing with any results.
 
 The adapter was exercised with a generated ONNX brightness fixture and controlled video files. That check verifies inference and reporting. The repository does not bundle a trained detector checkpoint or a labeled facial-manipulation dataset.
+
+## Run the ONNX comparison in one command
+
+With Python 3.11 or newer and the ONNX runner dependencies installed:
+
+```sh
+python3 research/benchmark_onnx.py --calibration cal.csv --test test.csv \
+  --model detector.onnx --size 224 --mean 0 0 0 --std 1 1 1 \
+  --output logit --max-fpr 0.05 > comparison.json
+```
+
+Both scorers use the same manifests. The report records the SHA-256 of the ONNX model file, preprocessing settings, both calibration cutoffs, and held-out error counts by dataset and compression. If the model uses external weight files, record their hashes separately. Reused clip identifiers and resolved paths across splits are rejected. Keep derivatives of the same source together even when IDs and paths differ.
