@@ -98,3 +98,16 @@ At the default cap, the peak-only and whole-frame scorers flagged 0 of 6 genuine
 Run `python3 research/stress_media.py --fresh --motion` to add a motion-aligned candidate to the same comparison. For custom manifests, pass `--motion` to `learn_media.py`. The candidate searches integer translations of up to eight pixels in each direction, minimizing the mean absolute difference between brightness-centered crops. It computes block-change features on the aligned 48×48 interior and retains the original whole-frame features.
 
 With the same training and calibration clips and the default zero calibration false-alarm cap, the motion-aligned candidate flagged 0 of 6 genuine encodings, compared with 4 of 6 for the unaligned spatial candidate. Both missed all 4 simulated edit encodings. The comparison changes both the registration and the spatial crop, so it cannot isolate which change explains the reduction. The fresh suite was used to identify the original motion failure and now serves as a regression set.
+
+## Isolate cropping, alignment and peak residuals
+
+Run `python3 research/stress_media.py --fresh --ablation`. The crop-only variant uses the same 48×48 interior as the aligned model but compares frames without translation. The peak variant adds the largest block residual across the clip to the aligned features. Training and calibration clips and the calibration cap stay fixed. Each feature set receives its own fitted model and cutoff.
+
+| Candidate | False alarms / genuine encodings | Detected edits / edit encodings |
+|---|---:|---:|
+| Full-frame spatial | 4 / 6 | 0 / 4 |
+| Crop-only spatial | 2 / 6 | 0 / 4 |
+| Motion-aligned spatial | 0 / 6 | 0 / 4 |
+| Motion-aligned plus peak residual | 0 / 6 | 0 / 4 |
+
+Cropping and alignment each reduced false alarms in this sequence of comparisons. Adding the peak residual left the edit detection count at zero. These synthetic regression cases were used during development and include two encodings per source. Real-world accuracy remains unmeasured.

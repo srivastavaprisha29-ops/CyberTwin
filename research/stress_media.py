@@ -101,6 +101,7 @@ def main():
                         help="Pooled calibration false-positive cap (default: 0)")
     parser.add_argument("--fresh", action="store_true", help="Use fresh held-out scenarios")
     parser.add_argument("--motion", action="store_true", help="Also run the motion-aligned candidate")
+    parser.add_argument("--ablation", action="store_true", help="Compare crop-only and peak-residual variants")
     args = parser.parse_args()
     try:
         with TemporaryDirectory(prefix="cybertwin-stress-") as temp:
@@ -115,8 +116,11 @@ def main():
             report = run_experiment(*splits, args.max_fpr)
             report["held_out_suite"] = "fresh" if args.fresh else "original"
             report["spatial_experiment"] = run_experiment(*splits, args.max_fpr, spatial=True)
-            if args.motion:
+            if args.motion or args.ablation:
                 report["motion_experiment"] = run_experiment(*splits, args.max_fpr, motion=True)
+            if args.ablation:
+                report["crop_experiment"] = run_experiment(*splits, args.max_fpr, crop=True)
+                report["peak_experiment"] = run_experiment(*splits, args.max_fpr, motion=True, peak=True)
     except (ImportError, OSError, ValueError, subprocess.SubprocessError) as exc:
         parser.error(str(exc))
     print(json.dumps(report, indent=2))

@@ -40,15 +40,17 @@ def aligned_delta(before, after, radius=8):
     return (best - center) / 255
 
 
-def features(clip, spatial=False, motion=False):
+def features(clip, spatial=False, motion=False, *, crop=False, peak=False):
     frames = decode_frames(clip)
     changes = adjacent_changes(frames)
     measurements = [max(changes), mean(changes)]
-    if spatial or motion:
+    if spatial or motion or crop:
         import numpy as np
 
         pixels = np.frombuffer(frames, dtype=np.uint8).reshape(-1, SIDE, SIDE)
         pixels = pixels.astype(np.float32)
+        if crop:
+            pixels = pixels[:, 8:-8, 8:-8]
         delta = (
             np.stack([aligned_delta(before, after) for before, after in zip(pixels[:-1], pixels[1:])])
             if motion else np.diff(pixels, axis=0) / 255
@@ -63,10 +65,12 @@ def features(clip, spatial=False, motion=False):
             float(block_mean.mean()),
             float((block_peak - block_mean).mean()),
         ])
+        if peak:
+            measurements.append(float(block_peak.max()))
     return measurements
 
 
-def run_experiment(train, calibration, test, max_fpr, spatial=False, motion=False):
+def run_experiment(train, calibration, test, max_fpr, spatial=False, motion=False, *, crop=False, peak=False):
     from sklearn.linear_model import LogisticRegression
     from sklearn.pipeline import make_pipeline
     from sklearn.preprocessing import StandardScaler
@@ -81,10 +85,10 @@ def run_experiment(train, calibration, test, max_fpr, spatial=False, motion=Fals
     if set(labels) != {0, 1}:
         raise ValueError("Training needs both genuine and manipulated clips.")
     model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000))
-    model.fit([features(clip, spatial, motion) for _, clip in train], labels)
+    model.fit([features(clip, spatial, motion, crop=crop, peak=peak) for _, clip in train], labels)
 
     def score_split(split):
-        measurements = [features(clip, spatial, motion) for _, clip in split]
+        measurements = [features(clip, spatial, motion, crop=crop, peak=peak) for _, clip in split]
         probabilities = model.predict_proba(measurements)[:, 1]
         return (
             [{**row, "score": item[0]} for (row, _), item in zip(split, measurements)],
@@ -96,10 +100,14 @@ def run_experiment(train, calibration, test, max_fpr, spatial=False, motion=Fals
     result = compare(base_cal, candidate_cal, base_test, candidate_test, max_fpr)
     result["training_clips"] = len(train)
     result["candidate_features"] = ["peak_frame_change", "mean_frame_change"]
-    if spatial or motion:
+    if spatial or motion or crop:
         result["candidate_features"].extend([
             "mean_peak_block_residual", "mean_block_residual", "mean_block_concentration"
         ])
+    if crop:
+        result["spatial_crop_pixels"] = 48
+    if peak:
+        result["candidate_features"].append("peak_block_residual")
     if motion:
         result["motion_alignment_radius_pixels"] = 8
     return result
