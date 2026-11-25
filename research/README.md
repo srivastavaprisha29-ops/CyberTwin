@@ -92,3 +92,9 @@ The stress command runs both candidates on identical splits at the same calibrat
 Run `python3 research/stress_media.py --fresh` to change only the test split. The training and calibration scenarios, seeds, feature definitions and false-positive cap stay the same. The fresh split includes camera panning, gradual lighting change, a cut during motion, a low-contrast patch and a one-frame patch, each at the same two MJPEG settings.
 
 At the default cap, the peak-only and whole-frame scorers flagged 0 of 6 genuine encodings and both missed all 4 simulated edit encodings. The spatial model also missed all 4 edits and flagged 4 of the 6 genuine encodings: both qualities of the pan and the moving cut. The calibration outputs matched the original run. These results show that the spatial improvement failed to transfer to this fresh synthetic suite. They do not establish performance on real videos.
+
+## Motion-aligned candidate
+
+Run `python3 research/stress_media.py --fresh --motion` to add a motion-aligned candidate to the same comparison. For custom manifests, pass `--motion` to `learn_media.py`. The candidate searches integer translations of up to eight pixels in each direction, minimizing the mean absolute difference between brightness-centered crops. It computes block-change features on the aligned 48×48 interior and retains the original whole-frame features.
+
+With the same training and calibration clips and the default zero calibration false-alarm cap, the motion-aligned candidate flagged 0 of 6 genuine encodings, compared with 4 of 6 for the unaligned spatial candidate. Both missed all 4 simulated edit encodings. The comparison changes both the registration and the spatial crop, so it cannot isolate which change explains the reduction. The fresh suite was used to identify the original motion failure and now serves as a regression set.

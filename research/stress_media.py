@@ -100,6 +100,7 @@ def main():
     parser.add_argument("--max-fpr", type=float, default=0.0,
                         help="Pooled calibration false-positive cap (default: 0)")
     parser.add_argument("--fresh", action="store_true", help="Use fresh held-out scenarios")
+    parser.add_argument("--motion", action="store_true", help="Also run the motion-aligned candidate")
     args = parser.parse_args()
     try:
         with TemporaryDirectory(prefix="cybertwin-stress-") as temp:
@@ -114,6 +115,8 @@ def main():
             report = run_experiment(*splits, args.max_fpr)
             report["held_out_suite"] = "fresh" if args.fresh else "original"
             report["spatial_experiment"] = run_experiment(*splits, args.max_fpr, spatial=True)
+            if args.motion:
+                report["motion_experiment"] = run_experiment(*splits, args.max_fpr, motion=True)
     except (ImportError, OSError, ValueError, subprocess.SubprocessError) as exc:
         parser.error(str(exc))
     print(json.dumps(report, indent=2))
