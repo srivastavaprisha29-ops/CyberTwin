@@ -11,7 +11,7 @@ FRAME_BYTES = SIDE * SIDE
 FIELDS = ("dataset", "compression", "clip_id", "label")
 
 
-def frame_changes(path):
+def decode_frames(path):
     if not path.is_file():
         raise ValueError(f"Clip does not exist: {path}")
     command = [
@@ -26,17 +26,20 @@ def frame_changes(path):
         raise ValueError(f"Could not decode {path}: {exc.stderr.decode(errors='replace').strip()}") from exc
     if len(raw) < FRAME_BYTES * 2 or len(raw) % FRAME_BYTES:
         raise ValueError(f"Need at least two complete sampled frames: {path}")
-    frames = memoryview(raw)
+    return memoryview(raw)
+
+
+def adjacent_changes(frames):
     return [
         sum(abs(a - b) for a, b in zip(
             frames[start - FRAME_BYTES:start], frames[start:start + FRAME_BYTES]
         )) / (255 * FRAME_BYTES)
-        for start in range(FRAME_BYTES, len(raw), FRAME_BYTES)
+        for start in range(FRAME_BYTES, len(frames), FRAME_BYTES)
     ]
 
 
 def score_clip(path):
-    return max(frame_changes(path))
+    return max(adjacent_changes(decode_frames(path)))
 
 
 def manifest_rows(stream, path):

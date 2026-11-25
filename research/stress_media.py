@@ -74,6 +74,7 @@ def main():
                 ("train", 100), ("calibration", 200), ("test", 300)
             )]
             report = run_experiment(*splits, args.max_fpr)
+            report["spatial_experiment"] = run_experiment(*splits, args.max_fpr, spatial=True)
     except (ImportError, OSError, ValueError, subprocess.SubprocessError) as exc:
         parser.error(str(exc))
     print(json.dumps(report, indent=2))

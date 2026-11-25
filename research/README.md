@@ -80,3 +80,9 @@ This candidate measures temporal changes across the frame. It can miss subtle fa
 Run `python3 research/stress_media.py` to generate separate training, calibration and held-out clips from fixed seeds. Each split contains five source clips, each encoded at two MJPEG quality settings. The genuine scenarios are a hard cut, a moving object and lighting flicker. The simulated edits alternate a local patch or the full frame. The report breaks out each case and quality setting.
 
 In the initial run at a zero pooled calibration false-alarm cap, both scorers produced zero false alarms across the six genuine held-out encodings and missed all four edit encodings. The two encodings of each source are related observations. This pilot illustrates a failure of the selected operating points on controlled inputs. It provides no estimate of accuracy on real deepfake footage.
+
+## Compare whole-frame and spatial features
+
+Use `--spatial` with `learn_media.py` to add three measurements from 8×8 pixel blocks. For each frame pair, subtract the median signed pixel change before measuring absolute residuals. This reduces the contribution of uniform brightness shifts. The model then sees the average strongest block residual, average residual across blocks, and their average difference.
+
+The stress command runs both candidates on identical splits at the same calibration cap and includes the spatial run under `spatial_experiment`. In the exploratory pilot at the zero cap, the whole-frame candidate detected 0 of 4 simulated edit encodings and the spatial candidate detected 3 of 4. Both flagged 0 of 6 genuine encodings. The remaining miss was the low-quality full-frame edit. These cases were already used to examine earlier failures. Evaluate on fresh source clips before drawing performance conclusions.

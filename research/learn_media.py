@@ -9,7 +9,7 @@ from statistics import mean
 
 from compare_media import compare
 from evaluate_media import clip_keys
-from score_media import frame_changes, manifest_rows
+from score_media import SIDE, adjacent_changes, decode_frames, manifest_rows
 
 
 def read_manifest(path):
@@ -17,12 +17,28 @@ def read_manifest(path):
         return list(manifest_rows(stream, path))
 
 
-def features(clip):
-    changes = frame_changes(clip)
-    return [max(changes), mean(changes)]
+def features(clip, spatial=False):
+    frames = decode_frames(clip)
+    changes = adjacent_changes(frames)
+    measurements = [max(changes), mean(changes)]
+    if spatial:
+        import numpy as np
+
+        pixels = np.frombuffer(frames, dtype=np.uint8).reshape(-1, SIDE, SIDE)
+        delta = np.diff(pixels.astype(np.float32), axis=0) / 255
+        residual = np.abs(delta - np.median(delta, axis=(1, 2), keepdims=True))
+        blocks = residual.reshape(-1, 8, 8, 8, 8).mean(axis=(2, 4))
+        block_peak = blocks.max(axis=(1, 2))
+        block_mean = blocks.mean(axis=(1, 2))
+        measurements.extend([
+            float(block_peak.mean()),
+            float(block_mean.mean()),
+            float((block_peak - block_mean).mean()),
+        ])
+    return measurements
 
 
-def run_experiment(train, calibration, test, max_fpr):
+def run_experiment(train, calibration, test, max_fpr, spatial=False):
     from sklearn.linear_model import LogisticRegression
     from sklearn.pipeline import make_pipeline
     from sklearn.preprocessing import StandardScaler
@@ -37,10 +53,10 @@ def run_experiment(train, calibration, test, max_fpr):
     if set(labels) != {0, 1}:
         raise ValueError("Training needs both genuine and manipulated clips.")
     model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000))
-    model.fit([features(clip) for _, clip in train], labels)
+    model.fit([features(clip, spatial) for _, clip in train], labels)
 
     def score_split(split):
-        measurements = [features(clip) for _, clip in split]
+        measurements = [features(clip, spatial) for _, clip in split]
         probabilities = model.predict_proba(measurements)[:, 1]
         return (
             [{**row, "score": item[0]} for (row, _), item in zip(split, measurements)],
@@ -52,6 +68,10 @@ def run_experiment(train, calibration, test, max_fpr):
     result = compare(base_cal, candidate_cal, base_test, candidate_test, max_fpr)
     result["training_clips"] = len(train)
     result["candidate_features"] = ["peak_frame_change", "mean_frame_change"]
+    if spatial:
+        result["candidate_features"].extend([
+            "mean_peak_block_residual", "mean_block_residual", "mean_block_concentration"
+        ])
     return result
 
 
@@ -60,11 +80,12 @@ def main():
     for split in ("train", "calibration", "test"):
         parser.add_argument("--" + split, type=Path, required=True)
     parser.add_argument("--max-fpr", type=float, required=True)
+    parser.add_argument("--spatial", action="store_true", help="Add block-change features")
     args = parser.parse_args()
     try:
         result = run_experiment(
             read_manifest(args.train), read_manifest(args.calibration), read_manifest(args.test),
-            args.max_fpr,
+            args.max_fpr, spatial=args.spatial,
         )
     except (ImportError, OSError, ValueError, csv.Error, subprocess.TimeoutExpired) as exc:
         parser.error(str(exc))
