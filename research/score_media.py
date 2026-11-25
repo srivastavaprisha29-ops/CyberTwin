@@ -11,20 +11,22 @@ FRAME_BYTES = SIDE * SIDE
 FIELDS = ("dataset", "compression", "clip_id", "label")
 
 
-def decode_frames(path):
+def decode_frames(path, *, side=SIDE, rgb=False):
     if not path.is_file():
         raise ValueError(f"Clip does not exist: {path}")
+    pixel_format = "rgb24" if rgb else "gray"
+    frame_bytes = side * side * (3 if rgb else 1)
     command = [
         "ffmpeg", "-nostdin", "-v", "error", "-xerror",
         "-protocol_whitelist", "file", "-i", str(path.resolve()),
-        "-map", "0:v:0", "-vf", f"fps=5,scale={SIDE}:{SIDE},format=gray",
+        "-map", "0:v:0", "-vf", f"fps=5,scale={side}:{side},format={pixel_format}",
         "-frames:v", "150", "-threads", "1", "-f", "rawvideo", "pipe:1",
     ]
     try:
         raw = subprocess.run(command, capture_output=True, check=True, timeout=60).stdout
     except subprocess.CalledProcessError as exc:
         raise ValueError(f"Could not decode {path}: {exc.stderr.decode(errors='replace').strip()}") from exc
-    if len(raw) < FRAME_BYTES * 2 or len(raw) % FRAME_BYTES:
+    if len(raw) < frame_bytes * 2 or len(raw) % frame_bytes:
         raise ValueError(f"Need at least two complete sampled frames: {path}")
     return memoryview(raw)
 

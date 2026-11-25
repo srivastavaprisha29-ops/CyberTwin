@@ -111,3 +111,18 @@ Run `python3 research/stress_media.py --fresh --ablation`. The crop-only variant
 | Motion-aligned plus peak residual | 0 / 6 | 0 / 4 |
 
 Cropping and alignment each reduced false alarms in this sequence of comparisons. Adding the peak residual left the edit detection count at zero. These synthetic regression cases were used during development and include two encodings per source. Real-world accuracy remains unmeasured.
+
+## Score clips with a local ONNX detector
+
+Install `onnxruntime` and `numpy` in your Python environment and make FFmpeg available on your PATH. The runner expects a binary image classifier with one FP32 RGB NCHW input and one scalar output per frame. Larger outputs must indicate manipulation. Supply model-ready clips. For a face-only model, prepare face crops with the checkpoint's required preprocessing before scoring. Models requiring video tensors or multiple logits need their own adapter.
+
+Use the checkpoint's image size, channel means and standard deviations. The example below uses 224×224 RGB and no normalization beyond scaling bytes to 0–1.
+
+```sh
+python3 research/score_onnx.py heldout.csv --model detector.onnx --size 224 \
+  --mean 0 0 0 --std 1 1 1 --output logit > candidate-test.csv
+```
+
+Use `--output probability` if the graph already applies a sigmoid. The runner averages per-frame probabilities from the first 30 seconds sampled at 5 fps. Output matches the evaluator CSV schema. Generate calibration scores separately and compare them with baseline scores on the same labeled clips. Record the checkpoint and preprocessing with any results.
+
+The adapter was exercised with a generated ONNX brightness fixture and controlled video files. That check verifies inference and reporting. The repository does not bundle a trained detector checkpoint or a labeled facial-manipulation dataset.
