@@ -1,7 +1,8 @@
 const protectionAdvice = {
   mfa: {
     missing: 'Enable multifactor authentication where available.',
-    unknown: 'Check whether multifactor authentication is enabled.'
+    unknown: 'Check whether multifactor authentication is enabled.',
+    code: 'Consider a phishing-resistant sign-in option, such as a passkey, where supported.'
   },
   password: {
     missing: 'Replace the reused password with a unique password.',
@@ -36,9 +37,10 @@ export function buildActionPlan(accounts) {
     }
   }
 
-  // Address confirmed gaps first, then consider essential accounts and direct recovery links.
+  const priority = { missing: 0, unknown: 1, code: 2 };
+  // Address gaps and unknown protections before optional upgrades.
   return actions.sort((a, b) =>
-    Number(b.state === 'missing') - Number(a.state === 'missing') ||
+    priority[a.state] - priority[b.state] ||
     b.essentialImpact - a.essentialImpact ||
     b.dependents - a.dependents
   );

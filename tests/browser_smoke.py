@@ -116,6 +116,10 @@ def verify_demo(url):
         expect(assessment.locator("#assessment-plan li").first).to_contain_text(
             "Essential accounts relying on it: Old forum."
         )
+        forum.get_by_label("Multifactor authentication").select_option("code")
+        expect(assessment.locator("#assessment-plan li").last).to_contain_text(
+            "phishing-resistant sign-in"
+        )
         with page.expect_download() as exported:
             assessment.get_by_role("button", name="Download action plan").click()
         exported_plan = Path(exported.value.path()).read_text(encoding="utf-8")
