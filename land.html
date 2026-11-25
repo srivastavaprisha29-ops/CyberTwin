@@ -282,6 +282,7 @@
     <div class="demo-layout">
       <div class="demo-panel assessment-panel">
         <h3>Add accounts</h3>
+        <p>Choose the same reuse group for accounts that share a password. Use the group letters only.</p>
         <form>
           <label for="assessment-label">Account label</label>
           <input id="assessment-label" name="label" maxlength="50" required autocomplete="off">
@@ -302,14 +303,19 @@
             <label>Multifactor authentication
               <select name="mfa">
                 <option value="unknown">Unknown</option>
-                <option value="missing">Disabled</option>
-                <option value="enabled">Enabled</option>
+                <option value="missing">Password only</option>
+                <option value="code">One-time code</option>
+                <option value="enabled">Phishing-resistant sign-in</option>
               </select>
             </label>
-            <label>Unique password
+            <label>Password reuse
               <select name="password">
                 <option value="unknown">Unknown</option>
-                <option value="missing">Reused</option>
+                <option value="missing">Reused (no group)</option>
+                <option value="reuse-a">Reused (group A)</option>
+                <option value="reuse-b">Reused (group B)</option>
+                <option value="reuse-c">Reused (group C)</option>
+                <option value="reuse-d">Reused (group D)</option>
                 <option value="enabled">Unique</option>
               </select>
             </label>
@@ -324,8 +330,10 @@
         <h3>Review recovery connections</h3>
         <ul id="assessment-links"></ul>
         <h3>Prioritized action plan</h3>
-        <p>Confirmed gaps come first. Mark accounts you rely on for work, money, or vital services as essential. Within each group, the plan counts essential accounts affected first, then direct recovery links.</p>
+        <p>Confirmed gaps come first, followed by unknown protections and optional sign-in upgrades. Mark accounts you rely on for work, money, or vital services as essential. Within each group, the plan counts essential accounts affected first, then direct recovery links.</p>
         <ol id="assessment-plan"></ol>
+        <p><a href="https://pages.nist.gov/800-63-4/sp800-63b/authenticators/#phishing-resistance">NIST guidance on phishing resistance</a></p>
+        <p><a href="https://www.ndss-symposium.org/ndss2014/ndss-2014-programme/tangled-web-password-reuse/">Research on password reuse across accounts</a></p>
         <button id="assessment-export" type="button" disabled>Download action plan</button>
       </div>
     </div>
@@ -437,6 +445,6 @@
 
 <script type="module" src="./demo.js"></script>
 <script type="module" src="./media-lab.js"></script>
-<script type="module" src="./assessment.js?v=2"></script>
+<script type="module" src="./assessment.js?v=4"></script>
 </body>
 </html>
