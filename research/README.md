@@ -138,3 +138,7 @@ python3 research/benchmark_onnx.py --calibration cal.csv --test test.csv \
 ```
 
 Both scorers use the same manifests. The report records the SHA-256 of the ONNX model file, preprocessing settings, both calibration cutoffs, and held-out error counts by dataset and compression. If the model uses external weight files, record their hashes separately. Reused clip identifiers and resolved paths across splits are rejected. Keep derivatives of the same source together even when IDs and paths differ.
+
+### Audit benchmark splits
+
+The one-command benchmark rejects byte-identical media across calibration and test, even under different paths. For a labeled study, add a `source_id` column to both manifests and pass `--require-source-ids`. Give the original clip and every manipulation or re-encoding derived from it the same globally consistent source ID. The runner rejects missing IDs and overlap across datasets or compression levels. Its JSON records which checks ran. File hashes detect exact copies. Related clips with different bytes require reliable source IDs.

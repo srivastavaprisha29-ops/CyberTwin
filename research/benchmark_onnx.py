@@ -21,6 +21,28 @@ def read_split(path):
         return list(manifest_rows(stream, path))
 
 
+def split_fingerprints(rows):
+    fingerprints = set()
+    for path in {path.resolve() for _, path in rows}:
+        with path.open("rb") as stream:
+            fingerprints.add(hashlib.file_digest(stream, "sha256").hexdigest())
+    return fingerprints
+
+
+def read_source_ids(path):
+    with path.open(encoding="utf-8-sig", newline="") as stream:
+        reader = csv.DictReader(stream)
+        if "source_id" not in (reader.fieldnames or ()):
+            raise ValueError(f"{path}: --require-source-ids needs a source_id column.")
+        ids = set()
+        for line, row in enumerate(reader, 2):
+            source = (row.get("source_id") or "").strip()
+            if not source:
+                raise ValueError(f"{path}:{line}: source_id must be nonempty.")
+            ids.add(source)
+        return ids
+
+
 def score(script, manifest, options=()):
     result = subprocess.run(
         [sys.executable, str(RESEARCH / script), str(manifest), *options],
@@ -39,6 +61,8 @@ def main():
     parser.add_argument("--mean", nargs=3, type=float, required=True)
     parser.add_argument("--std", nargs=3, type=float, required=True)
     parser.add_argument("--output", choices=("logit", "probability"), required=True)
+    parser.add_argument("--require-source-ids", action="store_true",
+                        help="Require globally consistent source_id values across both manifests")
     args = parser.parse_args()
     if not 0 <= args.max_fpr <= 1:
         parser.error("--max-fpr must be between 0 and 1.")
@@ -49,6 +73,12 @@ def main():
             raise ValueError("Calibration and test share dataset and clip identifiers.")
         if {path.resolve() for _, path in calibration} & {path.resolve() for _, path in test}:
             raise ValueError("Calibration and test share resolved media paths.")
+
+        if args.require_source_ids:
+            if read_source_ids(args.calibration) & read_source_ids(args.test):
+                raise ValueError("Calibration and test share source IDs.")
+        if split_fingerprints(calibration) & split_fingerprints(test):
+            raise ValueError("Calibration and test share byte-identical media.")
 
         with args.model.open("rb") as stream:
             checkpoint_sha256 = hashlib.file_digest(stream, "sha256").hexdigest()
@@ -72,6 +102,7 @@ def main():
         "model_file_sha256": checkpoint_sha256, "size": args.size,
         "mean": args.mean, "std": args.std, "output": args.output,
     }
+    report["split_audit"] = {"byte_duplicates_checked": True, "source_ids_checked": args.require_source_ids}
     print(json.dumps(report, indent=2))
 
 
