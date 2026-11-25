@@ -42,9 +42,12 @@ Instead of protecting a single device or account, CyberTwin protects the **digit
 2. Read how the selected signal contributes to the illustrative score.
 3. Toggle a protective action, such as enabling email MFA, and watch the score update from **63/100 to 33/100**.
 4. Select **Download report** to save your before-and-after score and remaining priorities.
-5. Select **Reset example** to restore the starting state.
+5. Reload the page to resume your protective actions. Select **Reset example** to clear them.
+6. Open the [media verification lab](https://srivastavaprisha29-ops.github.io/CyberTwin/#media-lab) to compare built-in samples or your own files by SHA-256, or measure what JPEG compression changes in a synthetic image.
 
-The demo runs in your browser with sample data. It requires no sign-in or personal information. The architecture and roadmap below describe future capabilities, including live exposure checks and monitoring.
+The demo runs in your browser and requires no sign-in. It stores only the identifiers of the protective actions you select. File comparisons run locally. A matching hash establishes byte equality with the chosen reference. The JPEG experiment measures pixel distortion, and media authenticity requires further evidence.
+
+The architecture and roadmap below describe future capabilities, including live exposure checks and monitoring.
 
 ### Run locally
 
@@ -54,7 +57,11 @@ Serve the repository with `python3 -m http.server 8000` and open `http://localho
 |---|---|
 | `land.html` | Page structure and accessible demo controls |
 | `styles.css` | Layout, visual styling, and animations |
-| `demo.js` | Identity graph selection, risk scoring, and protective actions |
+| `demo.js` | Identity graph selection, protective actions, and local progress |
+| `risk-model.mjs` | Score calculation, action priorities, and report generation |
+| `media-lab.js` | SHA-256 file comparison and JPEG compression experiment |
+
+Run the risk model checks with `node --test risk-model.test.mjs`. The Pages workflow also runs the Chromium smoke test against the staged site before deployment.
 
 ## ▸ The Problem
 

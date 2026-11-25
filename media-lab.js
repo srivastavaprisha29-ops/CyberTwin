@@ -3,6 +3,9 @@ const reference = byId('media-reference');
 const candidate = byId('media-candidate');
 const compare = byId('media-compare');
 const comparison = byId('media-result');
+const matchSample = byId('media-match');
+const editSample = byId('media-edit');
+const comparisonControls = [reference, candidate, compare, matchSample, editSample];
 
 async function digest(file) {
   const buffer = await file.arrayBuffer();
@@ -10,8 +13,7 @@ async function digest(file) {
   return Array.from(new Uint8Array(hash), byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-compare.addEventListener('click', async () => {
-  const files = [reference.files[0], candidate.files[0]];
+async function compareFiles(files, label = '') {
   if (files.some(file => !file)) {
     comparison.textContent = 'Choose both files first.';
     return;
@@ -20,19 +22,32 @@ compare.addEventListener('click', async () => {
     comparison.textContent = 'Choose files of 25 MB or smaller.';
     return;
   }
-  compare.disabled = reference.disabled = candidate.disabled = true;
+  comparisonControls.forEach(control => { control.disabled = true; });
   comparison.textContent = 'Comparing SHA-256 fingerprints…';
   try {
     const [first, second] = await Promise.all(files.map(digest));
-    comparison.textContent = first === second
+    const result = first === second
       ? 'Fingerprints match. Both files have the same bytes.'
       : 'Fingerprints differ. Editing, metadata changes, or re-encoding can change a fingerprint.';
+    comparison.textContent = label + result;
   } catch {
     comparison.textContent = 'Could not read or hash the files. Try again over HTTPS or localhost.';
   } finally {
-    compare.disabled = reference.disabled = candidate.disabled = false;
+    comparisonControls.forEach(control => { control.disabled = false; });
   }
-});
+}
+
+compare.addEventListener('click', () => compareFiles([reference.files[0], candidate.files[0]]));
+
+function compareSamples(edited) {
+  reference.value = candidate.value = '';
+  const original = new Blob(['CyberTwin sample A']);
+  const second = edited ? new Blob(['CyberTwin sample B']) : original;
+  return compareFiles([original, second], 'Built-in samples. ');
+}
+
+matchSample.addEventListener('click', () => compareSamples(false));
+editSample.addEventListener('click', () => compareSamples(true));
 for (const input of [reference, candidate]) {
   input.addEventListener('change', () => { comparison.textContent = ''; });
 }
