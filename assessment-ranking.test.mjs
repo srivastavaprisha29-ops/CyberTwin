@@ -55,3 +55,14 @@ test('the recommendation names essential recovery dependents', () => {
   const recommendation = buildActionPlan(scenarios[0].accounts)[0];
   assert.match(describeAction(recommendation), /Essential accounts relying on it: Payroll\./);
 });
+
+test('one-time codes receive an optional upgrade after unresolved protections', () => {
+  const actions = buildActionPlan([
+    account('Payroll', { importance: 'essential', mfa: 'code' }),
+    account('Bank', { mfa: 'enabled' }),
+    account('Forum', { mfa: 'unknown' }),
+    account('Notes', { mfa: 'missing' })
+  ]);
+  assert.deepEqual(actions.map(action => action.label), ['Notes', 'Forum', 'Payroll']);
+  assert.match(describeAction(actions[2]), /phishing-resistant sign-in/);
+});
