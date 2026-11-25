@@ -9,7 +9,14 @@ from pathlib import Path
 from score_media import FIELDS, decode_frames, manifest_rows
 
 
-def score_clip(session, path, side, mean, std, output_type):
+def aggregate_scores(scores, mode):
+    if mode == "top-quarter":
+        count = (len(scores) + 3) // 4
+        scores = sorted(scores, reverse=True)[:count]
+    return sum(scores) / len(scores)
+
+
+def score_clip(session, path, side, mean, std, output_type, aggregation="mean"):
     import numpy as np
 
     raw = decode_frames(path, side=side, rgb=True)
@@ -31,7 +38,7 @@ def score_clip(session, path, side, mean, std, output_type):
         if not 0 <= score <= 1:
             raise ValueError(f"Probability is outside [0, 1]: {path}")
         scores.append(score)
-    return sum(scores) / len(scores)
+    return aggregate_scores(scores, aggregation)
 
 
 def main():
@@ -42,6 +49,7 @@ def main():
     parser.add_argument("--mean", nargs=3, type=float, required=True, metavar=("R", "G", "B"))
     parser.add_argument("--std", nargs=3, type=float, required=True, metavar=("R", "G", "B"))
     parser.add_argument("--output", choices=("logit", "probability"), required=True)
+    parser.add_argument("--aggregation", choices=("mean", "top-quarter"), default="mean")
     args = parser.parse_args()
     if not 1 <= args.size <= 512:
         parser.error("--size must be in [1, 512].")
@@ -68,7 +76,7 @@ def main():
         writer.writeheader()
         with args.manifest.open(encoding="utf-8-sig", newline="") as stream:
             for record, clip in manifest_rows(stream, args.manifest):
-                value = score_clip(session, clip, args.size, args.mean, args.std, args.output)
+                value = score_clip(session, clip, args.size, args.mean, args.std, args.output, args.aggregation)
                 writer.writerow({**record, "score": value})
     except Exception as exc:
         # ONNX Runtime uses several native exception types for model and inference failures.

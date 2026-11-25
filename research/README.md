@@ -142,3 +142,9 @@ Both scorers use the same manifests. The report records the SHA-256 of the ONNX 
 ### Audit benchmark splits
 
 The one-command benchmark rejects byte-identical media across calibration and test, even under different paths. For a labeled study, add a `source_id` column to both manifests and pass `--require-source-ids`. Give the original clip and every manipulation or re-encoding derived from it the same globally consistent source ID. The runner rejects missing IDs and overlap across datasets or compression levels. Its JSON records which checks ran. File hashes detect exact copies. Related clips with different bytes require reliable source IDs.
+
+### Compare frame aggregation for brief signals
+
+Add `--compare-aggregation` to the one-command benchmark to compare the ordinary mean with the mean of the highest-scoring quarter of sampled frames, rounded up. Both methods use the same model, clips and calibration false-alarm cap, with each cutoff selected independently. Look for `top_quarter_vs_mean` in the report. The standalone scorer also accepts `--aggregation top-quarter`.
+
+In a controlled ONNX brightness fixture, top-quarter pooling caught one brief signal that the mean missed, with zero false alarms for both on the single negative test clip. This verifies a difference in pooling behavior. A brief genuine event can also raise top-quarter scores, so compare the held-out false-alarm and miss rates before selecting it for a real detector.

@@ -63,6 +63,8 @@ def main():
     parser.add_argument("--output", choices=("logit", "probability"), required=True)
     parser.add_argument("--require-source-ids", action="store_true",
                         help="Require globally consistent source_id values across both manifests")
+    parser.add_argument("--compare-aggregation", action="store_true",
+                        help="Compare mean and top-quarter pooling on the same clips")
     args = parser.parse_args()
     if not 0 <= args.max_fpr <= 1:
         parser.error("--max-fpr must be between 0 and 1.")
@@ -87,13 +89,18 @@ def main():
             "--mean", *map(str, args.mean), "--std", *map(str, args.std),
             "--output", args.output,
         ]
-        report = compare(
-            score("score_media.py", args.calibration),
-            score("score_onnx.py", args.calibration, options),
-            score("score_media.py", args.test),
-            score("score_onnx.py", args.test, options),
-            args.max_fpr,
-        )
+        base_cal = score("score_media.py", args.calibration)
+        base_test = score("score_media.py", args.test)
+        mean_cal = score("score_onnx.py", args.calibration, options)
+        mean_test = score("score_onnx.py", args.test, options)
+        report = compare(base_cal, mean_cal, base_test, mean_test, args.max_fpr)
+        if args.compare_aggregation:
+            top_options = [*options, "--aggregation", "top-quarter"]
+            top_cal = score("score_onnx.py", args.calibration, top_options)
+            top_test = score("score_onnx.py", args.test, top_options)
+            report["top_quarter_vs_mean"] = compare(
+                mean_cal, top_cal, mean_test, top_test, args.max_fpr,
+            )
     except subprocess.CalledProcessError as exc:
         parser.error(f"{Path(exc.cmd[1]).name} failed. See the scorer error above.")
     except (OSError, ValueError, csv.Error) as exc:
