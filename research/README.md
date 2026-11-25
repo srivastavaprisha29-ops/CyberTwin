@@ -74,3 +74,9 @@ python3 research/learn_media.py --train train.csv --calibration calibration.csv 
 The candidate learns from peak and mean adjacent-frame change. Feature scaling and logistic regression are fitted on the training split. The peak-only baseline and candidate receive their own calibration cutoffs, then share the same held-out clips. The command rejects repeated dataset/clip identifiers and repeated resolved media paths across splits. Keep derivatives and re-encodings together even when filenames and IDs differ.
 
 This candidate measures temporal changes across the frame. It can miss subtle facial edits and can respond to motion or cuts in genuine videos. Synthetic clips exercise the implementation. Estimates of deepfake detection performance require real held-out data.
+
+## Synthetic compression and motion stress test
+
+Run `python3 research/stress_media.py` to generate separate training, calibration and held-out clips from fixed seeds. Each split contains five source clips, each encoded at two MJPEG quality settings. The genuine scenarios are a hard cut, a moving object and lighting flicker. The simulated edits alternate a local patch or the full frame. The report breaks out each case and quality setting.
+
+In the initial run at a zero pooled calibration false-alarm cap, both scorers produced zero false alarms across the six genuine held-out encodings and missed all four edit encodings. The two encodings of each source are related observations. This pilot illustrates a failure of the selected operating points on controlled inputs. It provides no estimate of accuracy on real deepfake footage.
