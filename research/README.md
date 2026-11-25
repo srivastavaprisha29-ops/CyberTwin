@@ -37,3 +37,15 @@ python3 research/evaluate_media.py scores.csv --threshold 0.50
 ```
 
 The threshold above is illustrative. Select a threshold on a separate calibration set before evaluating held-out clips. Cuts, motion and lighting changes can raise the score on genuine clips. Subtle edits can produce low scores. Use this heuristic as a baseline for comparison with a learned detector.
+
+## Select a threshold on a separate split
+
+Generate score files for calibration and held-out clips, then run:
+
+```sh
+python3 research/evaluate_media.py heldout-scores.csv --calibration calibration-scores.csv --max-fpr 0.05
+```
+
+The example caps the pooled calibration false-positive rate at 5%. The evaluator maximizes calibration recall under that cap, preferring fewer false positives and then a higher threshold when tied. It applies the selected cutoff to every held-out stratum and reports calibration counts and rates separately. The cap applies to calibration observations. Held-out rates may differ.
+
+The evaluator rejects identical dataset and clip identifiers across splits, even at different compressions. Assign related versions and derivatives of each source to the same split before scoring. The check relies on identifiers and cannot infer shared origins from media content.
