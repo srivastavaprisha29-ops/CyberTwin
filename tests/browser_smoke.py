@@ -105,12 +105,16 @@ def verify_demo(url):
         email = assessment.get_by_role("group", name="Primary email")
         forum = assessment.get_by_role("group", name="Old forum")
         email.get_by_label("Multifactor authentication").select_option("missing")
+        forum.get_by_label("Account importance").select_option("essential")
         forum.get_by_label("Recovery account").select_option(label="Primary email")
         expect(assessment.locator("#assessment-links")).to_contain_text(
             "Old forum uses Primary email for recovery."
         )
         expect(assessment.locator("#assessment-plan li").first).to_contain_text(
             "recovery account for 1 account."
+        )
+        expect(assessment.locator("#assessment-plan li").first).to_contain_text(
+            "Essential accounts relying on it: Old forum."
         )
         with page.expect_download() as exported:
             assessment.get_by_role("button", name="Download action plan").click()

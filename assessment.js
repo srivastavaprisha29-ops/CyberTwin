@@ -1,4 +1,4 @@
-import { buildActionPlan, describeAction, formatActionPlan } from './assessment-model.mjs';
+import { buildActionPlan, describeAction, formatActionPlan } from './assessment-model.mjs?v=2';
 
 const section = document.querySelector('#my-cybertwin');
 const form = section.querySelector('form');
@@ -76,7 +76,7 @@ form.addEventListener('submit', event => {
   } else if (accounts.length >= 30) {
     status.textContent = 'This assessment supports up to 30 accounts.';
   } else {
-    accounts.push({ id: String(nextId++), label, recovery: '', mfa: 'unknown', password: 'unknown' });
+    accounts.push({ id: String(nextId++), label, recovery: '', importance: 'unrated', mfa: 'unknown', password: 'unknown' });
     form.reset();
     renderAccounts();
     status.textContent = label + ' added.';

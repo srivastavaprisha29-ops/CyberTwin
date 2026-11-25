@@ -292,6 +292,13 @@
         <template>
           <fieldset>
             <legend></legend>
+            <label>Account importance
+              <select name="importance">
+                <option value="unrated">Unrated</option>
+                <option value="standard">Standard</option>
+                <option value="essential">Essential</option>
+              </select>
+            </label>
             <label>Multifactor authentication
               <select name="mfa">
                 <option value="unknown">Unknown</option>
@@ -317,7 +324,7 @@
         <h3>Review recovery connections</h3>
         <ul id="assessment-links"></ul>
         <h3>Prioritized action plan</h3>
-        <p>Confirmed gaps come first. Within each group, accounts that support more direct recovery links rank higher.</p>
+        <p>Confirmed gaps come first. Mark accounts you rely on for work, money, or vital services as essential. Within each group, the plan counts essential accounts affected first, then direct recovery links.</p>
         <ol id="assessment-plan"></ol>
         <button id="assessment-export" type="button" disabled>Download action plan</button>
       </div>
@@ -430,6 +437,6 @@
 
 <script type="module" src="./demo.js"></script>
 <script type="module" src="./media-lab.js"></script>
-<script type="module" src="./assessment.js"></script>
+<script type="module" src="./assessment.js?v=2"></script>
 </body>
 </html>
