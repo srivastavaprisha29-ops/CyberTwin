@@ -51,7 +51,7 @@ The architecture and roadmap below describe future capabilities, including live 
 
 ### My CyberTwin self-assessment
 
-Open [My CyberTwin](https://srivastavaprisha29-ops.github.io/CyberTwin/#my-cybertwin), add account labels, and record MFA status, password uniqueness, and recovery connections. The plan puts confirmed gaps first and prioritizes accounts with more direct recovery dependents within each group. Download the resulting plan as text. The assessment uses the current tab's memory and requires no account or backend.
+Open [My CyberTwin](https://srivastavaprisha29-ops.github.io/CyberTwin/#my-cybertwin), add account labels, and record account importance, MFA status, password uniqueness, and recovery connections. The plan puts confirmed gaps first and counts the essential account itself and its essential direct recovery dependents. Total direct links break ties. Unrated accounts get no essential weight. On four written scenarios with expected first actions set before the change, the old rule matched two, and the new rule matched all four. These cases check the intended behavior on synthetic inputs. Download the resulting plan as text. The assessment uses the current tab's memory and requires no account or backend.
 
 ### Run locally
 
