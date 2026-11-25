@@ -86,3 +86,9 @@ In the initial run at a zero pooled calibration false-alarm cap, both scorers pr
 Use `--spatial` with `learn_media.py` to add three measurements from 8×8 pixel blocks. For each frame pair, subtract the median signed pixel change before measuring absolute residuals. This reduces the contribution of uniform brightness shifts. The model then sees the average strongest block residual, average residual across blocks, and their average difference.
 
 The stress command runs both candidates on identical splits at the same calibration cap and includes the spatial run under `spatial_experiment`. In the exploratory pilot at the zero cap, the whole-frame candidate detected 0 of 4 simulated edit encodings and the spatial candidate detected 3 of 4. Both flagged 0 of 6 genuine encodings. The remaining miss was the low-quality full-frame edit. These cases were already used to examine earlier failures. Evaluate on fresh source clips before drawing performance conclusions.
+
+## Fresh synthetic holdout
+
+Run `python3 research/stress_media.py --fresh` to change only the test split. The training and calibration scenarios, seeds, feature definitions and false-positive cap stay the same. The fresh split includes camera panning, gradual lighting change, a cut during motion, a low-contrast patch and a one-frame patch, each at the same two MJPEG settings.
+
+At the default cap, the peak-only and whole-frame scorers flagged 0 of 6 genuine encodings and both missed all 4 simulated edit encodings. The spatial model also missed all 4 edits and flagged 4 of the 6 genuine encodings: both qualities of the pan and the moving cut. The calibration outputs matched the original run. These results show that the spatial improvement failed to transfer to this fresh synthetic suite. They do not establish performance on real videos.
