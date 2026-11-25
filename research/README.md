@@ -61,3 +61,16 @@ python3 research/compare_media.py \
 ```
 
 The report shows each scorer's calibration cutoff, held-out confusion counts, and the change in error rates in percentage points for each dataset and compression level. Negative changes mean fewer errors for the candidate. Rates remain unavailable for strata without the corresponding class. Any excluded clip must be excluded from both files for its split, and exclusions should be recorded in the experiment notes.
+
+## Train a logistic regression candidate
+
+Install scikit-learn in your Python environment and make FFmpeg available on your PATH. Use three clip manifests with the same columns as the frame-change baseline.
+
+```sh
+python3 research/learn_media.py --train train.csv --calibration calibration.csv \
+  --test heldout.csv --max-fpr 0.05
+```
+
+The candidate learns from peak and mean adjacent-frame change. Feature scaling and logistic regression are fitted on the training split. The peak-only baseline and candidate receive their own calibration cutoffs, then share the same held-out clips. The command rejects repeated dataset/clip identifiers and repeated resolved media paths across splits. Keep derivatives and re-encodings together even when filenames and IDs differ.
+
+This candidate measures temporal changes across the frame. It can miss subtle facial edits and can respond to motion or cuts in genuine videos. Synthetic clips exercise the implementation. Estimates of deepfake detection performance require real held-out data.
