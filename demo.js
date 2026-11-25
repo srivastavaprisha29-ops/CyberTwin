@@ -15,7 +15,30 @@ import { calculateRisk, formatRiskReport, prioritizeActions, signals } from './r
   };
   const priorities = demo.querySelector('#demo-priorities');
   const priorityStatus = demo.querySelector('#demo-priority-status');
+  const storageKey = 'cybertwin.demo.actions.v1';
   let selected = 'profile';
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey));
+    if (Array.isArray(saved)) {
+      actions.forEach(action => { action.checked = saved.includes(action.dataset.action); });
+    }
+  } catch {
+    // The example remains usable when browser storage is unavailable.
+  }
+
+  function saveProgress() {
+    try {
+      const resolved = [...getResolvedSignals()];
+      if (resolved.length) {
+        localStorage.setItem(storageKey, JSON.stringify(resolved));
+      } else {
+        localStorage.removeItem(storageKey);
+      }
+    } catch {
+      // Keep the current session usable without persistent storage.
+    }
+  }
 
   function getResolvedSignals() {
     return new Set(actions.filter(action => action.checked).map(action => action.dataset.action));
@@ -50,7 +73,10 @@ import { calculateRisk, formatRiskReport, prioritizeActions, signals } from './r
     selected = node.dataset.node;
     render();
   }));
-  actions.forEach(action => action.addEventListener('change', render));
+  actions.forEach(action => action.addEventListener('change', () => {
+    saveProgress();
+    render();
+  }));
   authMethod.addEventListener('change', render);
   demo.querySelector('#demo-download').addEventListener('click', () => {
     const report = new Blob([formatRiskReport(getResolvedSignals())], { type: 'text/plain;charset=utf-8' });
@@ -65,6 +91,7 @@ import { calculateRisk, formatRiskReport, prioritizeActions, signals } from './r
   });
   demo.querySelector('#demo-reset').addEventListener('click', () => {
     actions.forEach(action => { action.checked = false; });
+    saveProgress();
     authMethod.value = 'password';
     selected = 'profile';
     render();

@@ -41,6 +41,10 @@ def verify_demo(url):
         assert "Completed actions\n- Enable email MFA" in report
         assert "Set a unique forum password (23 points)" in report
 
+        page.reload(wait_until="domcontentloaded")
+        expect(mfa).to_be_checked()
+        expect(score).to_have_text("33 / 100")
+
         mfa.uncheck()
         expect(score).to_have_text("63 / 100")
         for signal in ("mfa", "password", "contact"):
@@ -54,6 +58,18 @@ def verify_demo(url):
         expect(page.get_by_role("button", name="Alex Rivera")).to_have_attribute(
             "aria-pressed", "true"
         )
+        page.reload(wait_until="domcontentloaded")
+        expect(mfa).not_to_be_checked()
+        expect(score).to_have_text("63 / 100")
+
+        fingerprint = page.locator("#media-result")
+        page.get_by_role("button", name="Try identical samples").click()
+        expect(fingerprint).to_have_text(
+            "Built-in samples. Fingerprints match. Both files have the same bytes."
+        )
+        page.get_by_role("button", name="Try a one-byte edit").click()
+        expect(fingerprint).to_contain_text("Built-in samples. Fingerprints differ.")
+
         reference = {"name": "reference.txt", "mimeType": "text/plain", "buffer": b"known bytes"}
         page.locator("#media-reference").set_input_files(reference)
         candidate = page.locator("#media-candidate")

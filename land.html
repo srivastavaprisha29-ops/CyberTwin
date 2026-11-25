@@ -251,6 +251,7 @@
         <h4>Remaining actions by score impact</h4>
         <ol id="demo-priorities" aria-label="Remaining protective actions"></ol>
         <p id="demo-priority-status" role="status"></p>
+        <p>Protective actions can be saved in this browser. Reset example clears them.</p>
         <button type="button" id="demo-reset">Reset example</button>
         <button type="button" id="demo-download">Download report</button>
         <details class="demo-research">
@@ -283,6 +284,9 @@
         <label>Trusted reference <input id="media-reference" type="file"></label>
         <label>File to compare <input id="media-candidate" type="file"></label>
         <button type="button" id="media-compare">Compare files</button>
+        <p>Try built-in samples to see how a one-byte edit affects the fingerprint.</p>
+        <button type="button" id="media-match">Try identical samples</button>
+        <button type="button" id="media-edit">Try a one-byte edit</button>
         <p id="media-result" role="status"></p>
         <p>Matching bytes do not establish whether the content depicts a real event. This comparison does not validate signed credentials.</p>
         <a href="https://spec.c2pa.org/specifications/specifications/2.4/explainer/Explainer.html">Read about C2PA Content Credentials</a>
