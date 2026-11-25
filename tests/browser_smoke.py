@@ -96,6 +96,33 @@ def verify_demo(url):
         expect(result).to_contain_text("Mean RGB channel change")
         low = float(result.inner_text().split(": ")[1].split(" / ")[0])
         assert low > high > 0, (high, low)
+        assessment = page.locator("#my-cybertwin")
+        label = assessment.get_by_label("Account label")
+        add = assessment.get_by_role("button", name="Add account")
+        for name in ("Primary email", "Old forum"):
+            label.fill(name)
+            add.click()
+        email = assessment.get_by_role("group", name="Primary email")
+        forum = assessment.get_by_role("group", name="Old forum")
+        email.get_by_label("Multifactor authentication").select_option("missing")
+        forum.get_by_label("Recovery account").select_option(label="Primary email")
+        expect(assessment.locator("#assessment-links")).to_contain_text(
+            "Old forum uses Primary email for recovery."
+        )
+        expect(assessment.locator("#assessment-plan li").first).to_contain_text(
+            "recovery account for 1 account."
+        )
+        with page.expect_download() as exported:
+            assessment.get_by_role("button", name="Download action plan").click()
+        exported_plan = Path(exported.value.path()).read_text(encoding="utf-8")
+        assert "Old forum uses Primary email for recovery." in exported_plan
+        assessment.get_by_role("button", name="Remove Primary email").click()
+        expect(assessment.locator("#assessment-links")).to_contain_text(
+            "Choose a recovery account"
+        )
+        page.reload(wait_until="domcontentloaded")
+        expect(assessment.get_by_role("button", name="Download action plan")).to_be_disabled()
+        expect(assessment.locator("#assessment-accounts fieldset")).to_have_count(0)
         assert not errors, errors
         browser.close()
 

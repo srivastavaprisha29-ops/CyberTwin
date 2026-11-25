@@ -334,3 +334,40 @@
   max-width: 192px;
   image-rendering: pixelated;
 }
+
+.assessment-panel {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.assessment-panel input,
+.assessment-panel select {
+  display: block;
+  width: 100%;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg-panel-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.assessment-panel fieldset {
+  min-width: 0;
+  border: 1px solid var(--line);
+  padding: 0 12px 12px;
+}
+
+.assessment-panel button {
+  min-height: 44px;
+}
+
+.assessment-panel button:disabled {
+  opacity: .55;
+  cursor: default;
+}
+
+.assessment-panel ol {
+  padding-left: 1.5em;
+}

@@ -49,6 +49,10 @@ The demo runs in your browser and requires no sign-in. It stores only the identi
 
 The architecture and roadmap below describe future capabilities, including live exposure checks and monitoring.
 
+### My CyberTwin self-assessment
+
+Open [My CyberTwin](https://srivastavaprisha29-ops.github.io/CyberTwin/#my-cybertwin), add account labels, and record MFA status, password uniqueness, and recovery connections. The plan puts confirmed gaps first and prioritizes accounts with more direct recovery dependents within each group. Download the resulting plan as text. The assessment uses the current tab's memory and requires no account or backend.
+
 ### Run locally
 
 Serve the repository with `python3 -m http.server 8000` and open `http://localhost:8000/land.html#demo`.
@@ -61,7 +65,7 @@ Serve the repository with `python3 -m http.server 8000` and open `http://localho
 | `risk-model.mjs` | Score calculation, action priorities, and report generation |
 | `media-lab.js` | SHA-256 file comparison and JPEG compression experiment |
 
-Run the risk model checks with `node --test risk-model.test.mjs`. The Pages workflow also runs the Chromium smoke test against the staged site before deployment.
+Run the risk model checks with `node --test *.test.mjs`. The Pages workflow also runs the Chromium smoke test against the staged site before deployment.
 
 ## ▸ The Problem
 
