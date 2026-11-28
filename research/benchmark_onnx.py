@@ -64,7 +64,7 @@ def main():
     parser.add_argument("--require-source-ids", action="store_true",
                         help="Require globally consistent source_id values across both manifests")
     parser.add_argument("--compare-aggregation", action="store_true",
-                        help="Compare mean and top-quarter pooling on the same clips")
+                        help="Compare mean, top-quarter and consecutive-frame pooling")
     args = parser.parse_args()
     if not 0 <= args.max_fpr <= 1:
         parser.error("--max-fpr must be between 0 and 1.")
@@ -100,6 +100,12 @@ def main():
             top_test = score("score_onnx.py", args.test, top_options)
             report["top_quarter_vs_mean"] = compare(
                 mean_cal, top_cal, mean_test, top_test, args.max_fpr,
+            )
+            window_options = [*options, "--aggregation", "three-frame-window"]
+            window_cal = score("score_onnx.py", args.calibration, window_options)
+            window_test = score("score_onnx.py", args.test, window_options)
+            report["three_frame_window_vs_top_quarter"] = compare(
+                top_cal, window_cal, top_test, window_test, args.max_fpr,
             )
     except subprocess.CalledProcessError as exc:
         parser.error(f"{Path(exc.cmd[1]).name} failed. See the scorer error above.")

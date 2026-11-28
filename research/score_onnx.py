@@ -10,6 +10,10 @@ from score_media import FIELDS, decode_frames, manifest_rows
 
 
 def aggregate_scores(scores, mode):
+    if mode == "three-frame-window":
+        width = min(3, len(scores))
+        return max(sum(scores[start:start + width]) / width
+                   for start in range(len(scores) - width + 1))
     if mode == "top-quarter":
         count = (len(scores) + 3) // 4
         scores = sorted(scores, reverse=True)[:count]
@@ -49,7 +53,7 @@ def main():
     parser.add_argument("--mean", nargs=3, type=float, required=True, metavar=("R", "G", "B"))
     parser.add_argument("--std", nargs=3, type=float, required=True, metavar=("R", "G", "B"))
     parser.add_argument("--output", choices=("logit", "probability"), required=True)
-    parser.add_argument("--aggregation", choices=("mean", "top-quarter"), default="mean")
+    parser.add_argument("--aggregation", choices=("mean", "top-quarter", "three-frame-window"), default="mean")
     args = parser.parse_args()
     if not 1 <= args.size <= 512:
         parser.error("--size must be in [1, 512].")
